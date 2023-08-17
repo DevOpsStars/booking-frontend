@@ -17,5 +17,5 @@ spec:
           image: mladenv7/booking-frontend:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 4200
+            - containerPort: 3000
 ---
