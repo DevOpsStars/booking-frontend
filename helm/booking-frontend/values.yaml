@@ -1,0 +1,7 @@
+appName: booking-frontend
+namespace: default
+nodePort: 31000
+
+image:
+  name: mladenv7/booking-frontend
+  tag: latest
