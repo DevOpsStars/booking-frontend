@@ -3,14 +3,14 @@ module.exports = function(app) {
   app.use(
     '/api/auth',
     createProxyMiddleware({
-      target: 'http://host.docker.internal:8000',
+      target: process.env.REACT_APP_USER_SERVICE_PATH,
       changeOrigin: true,
     })
   );
   app.use(
     '/api/users',
     createProxyMiddleware({
-      target: 'http://host.docker.internal:8000',
+      target: process.env.REACT_APP_USER_SERVICE_PATH,
       changeOrigin: true,
     })
   );
