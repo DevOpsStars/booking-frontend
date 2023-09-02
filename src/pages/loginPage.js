@@ -24,14 +24,12 @@ function Copyright(props) {
     </Typography>
   );
 }
-
 const defaultTheme = createTheme();
 
 export default function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-
     let requestOptions = {
       method : 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -40,7 +38,6 @@ export default function SignIn() {
         password: data.get('password'),
       })
     }
-
     AuthService.login(requestOptions);
   };
 
