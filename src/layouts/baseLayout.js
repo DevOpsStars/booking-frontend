@@ -1,19 +1,13 @@
 import React from 'react'
-import Grid from '@mui/material/Grid';
+import Navbar from '../components/navbar';
+import Stack from '@mui/material/Stack';
 
-export default function baseLayout() {
+
+export default function BaseLayout() {
   return (
-    <Grid container spacing={2}>
-        <Grid item xs={12}>
-          
-        </Grid>
-        <Grid item xs={12}>
-           
-        </Grid>
-        <Grid item xs={12}>
-            
-        </Grid>
-    </Grid>
+    <Stack spacing={2}>
+      <Navbar/>
+    </Stack>
   )
 }
 

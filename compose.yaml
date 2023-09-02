@@ -6,6 +6,6 @@ services:
       context: .
     container_name: booking_frontend
     environment:
-      - REACT_APP_USER_SERVICE_PATH="host.docker.internal:8000"
+      - REACT_APP_USER_SERVICE_PATH=http://host.docker.internal:8000
     ports:
       - "3000:3000"
