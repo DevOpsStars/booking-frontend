@@ -58,7 +58,6 @@ export default function RegisterPage() {
         role: role,
       })
     }
-    console.log(requestOptions.body);
     let hashedPassword = bcrypt.hashSync(data.get("password"), 10);
     AuthService.register(requestOptions, hashedPassword);
   };
