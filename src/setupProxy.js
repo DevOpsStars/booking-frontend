@@ -8,18 +8,10 @@ module.exports = function(app) {
     })
   );
   app.use(
-    '/api/users',
+    ['/api/users', '/api/auth'],
     createProxyMiddleware({
       target: process.env.REACT_APP_USER_SERVICE_PATH,
       changeOrigin: true,
     })
   );
-  app.use(
-    '/api/auth', 
-    createProxyMiddleware({
-      target: process.env.REACT_APP_USER_SERVICE_PATH,
-      changeOrigin: true,
-    })
-  );
-  
 };

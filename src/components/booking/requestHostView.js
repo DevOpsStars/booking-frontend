@@ -13,7 +13,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LocationCityOutlinedIcon from "@mui/icons-material/LocationCityOutlined";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import Moment from "react-moment";
 import React, { useEffect, useState } from "react";
 import UserService from "../../services/userService";
 import IconThenText from "./textWithIcon";

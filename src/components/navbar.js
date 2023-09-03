@@ -141,7 +141,7 @@ function Navbar() {
           </Box>
 
           {localStorage.getItem("currentUser") &&
-          localStorage.getItem("jwt") ? (
+          localStorage.getItem("token") ? (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
