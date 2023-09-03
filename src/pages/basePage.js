@@ -1,10 +1,10 @@
 import React from 'react'
 import BaseLayout from '../layouts/baseLayout'
 
-export default function BasePage() {
+export default function BasePage({children}) {
   return (
     <div>
-        <BaseLayout/>
+        <BaseLayout>{children}</BaseLayout>
     </div>
   )
 }
