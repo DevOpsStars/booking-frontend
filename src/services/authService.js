@@ -5,7 +5,7 @@ const AuthService = {
         .then((response) => response.json())
         .then((responseJson) => {  
             localStorage.setItem("currentUser", JSON.stringify(responseJson.user))  
-            localStorage.setItem("token", JSON.stringify(responseJson.jwt))  
+            localStorage.setItem("token", responseJson.jwt)  
             
         })
         .catch(error => alert(error.message));

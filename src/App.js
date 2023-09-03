@@ -3,6 +3,7 @@ import {Route, Routes} from 'react-router-dom'
 import LoginPage from './pages/loginPage';
 import RegisterPage from './pages/registerPage';
 import BasePage from './pages/basePage';
+import RequestList from './components/booking/requestList';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path='/*' element={<BasePage/>}/>
         <Route path='/login' element={<LoginPage/>}/>
         <Route path='/register' element={<RegisterPage/>}/>
+        <Route path='/requests' element={<BasePage><RequestList/></BasePage>}/>
       </Routes>
     </div>
   );
