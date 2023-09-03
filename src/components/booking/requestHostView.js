@@ -5,22 +5,26 @@ import {
   CardActions,
   CardContent,
   Chip,
+  Grid,
   Typography,
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import EventBusyIcon from '@mui/icons-material/EventBusy';
+import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LocationCityOutlinedIcon from "@mui/icons-material/LocationCityOutlined";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import React, { useEffect, useState } from "react";
 import UserService from "../../services/userService";
-import IconThenText from "./textWithIcon";
-import RequestService from "../../services/requestService";
+import IconThenText, { TextThenIcon } from "./textWithIcon";
+import BookingService from "../../services/requestService";
 import FormatedDate from "./formatedDate";
 
 export default function RequestHostView({ request }) {
   const [user, setUser] = useState({});
+  const [cancelCount, setCancelCount] = useState(0);
 
   useEffect(() => {
     let requestOptions = {
@@ -31,37 +35,56 @@ export default function RequestHostView({ request }) {
       },
     };
     UserService.getUser(request.userId, setUser, requestOptions);
+    BookingService.getCancelCount(request.userId, setCancelCount);
   }, []);
 
   useEffect(() => {
     console.log(user);
   }, [user]);
 
+  useEffect(() => {
+    console.log(cancelCount);
+  }, [cancelCount]);
+
   const handleAccept = (event) => {
-    RequestService.accept(event.target.getAttribute("req"));
+    BookingService.accept(event.target.getAttribute("req"));
   };
 
   const handleDecline = (event) => {
-    RequestService.decline(event.target.getAttribute("req"));
+    BookingService.decline(event.target.getAttribute("req"));
   };
 
   return (
     <Card key={request.id} sx={{ minWidth: 275, display: "inline-flex", m: 2 }}>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent>
-          <Typography variant="h6" component="div">
+          <Typography variant="h4" component="div">
             <Chip label={"ID: " + request.id} />
           </Typography>
-
-          <IconThenText
-            icon={<AccountCircleIcon />}
-            text={"/user" + request.userId}
+          <Grid container>
+            <Grid item xs={6}>
+            <IconThenText icon={<AccountCircleIcon sx={{mr: 1, mt: 1}} />}
+            text={(user ? user.username : 'user'+request.userId)}
           />
+            </Grid>
+            <Grid item>
+            <Chip
+              label={cancelCount + ' canceled'}
+              color={cancelCount == 0 ? "default":"error"}
+              sx={{mr: 1, mt: 1}}
+              variant="outlined"
+              size="sm"
+              icon={<EventBusyIcon />}
+            />
+              {/* <IconThenText icon={<EventBusyIcon   />} text={cancelCount}/> */}
+              </Grid>
+          </Grid>
+          
+          
           <IconThenText
-            icon={<LocationCityOutlinedIcon />}
-            text={request.lodgeId}
+            icon={<LocationCityOutlinedIcon sx={{mr: 1, my: 1}} />}
+            text={"Lodge Street " + request.lodgeId}
           />
-
           <div
             style={{
               display: "flex",
@@ -72,12 +95,12 @@ export default function RequestHostView({ request }) {
             <CalendarMonthIcon />
             <Chip
               label={<FormatedDate dateStr={request.reservationStart} />}
-              variant="outlined"
+              variant="outlined" sx={{mx: 1}}
             />
             -
             <Chip
               label={<FormatedDate dateStr={request.reservationEnd} />}
-              variant="outlined"
+              variant="outlined" sx={{ml: 1}}
             />
           </div>
 
@@ -91,12 +114,33 @@ export default function RequestHostView({ request }) {
             <Chip
               label={request.guestNumber}
               color="warning"
+              sx={{my: 1}}
               icon={<PersonIcon />}
             />
+            <Chip
+              label={"$"+request.totalPrice}
+              color="success"
+              sx={{mx: 1}}
+              icon={<LocalAtmIcon />}
+            />
           </div>
-          {request.status}
+          <div style={{
+              display: "flex",
+              alignItems: "center",
+              flexWrap: "wrap",
+            }}>
+            
+          {request.status != 'PENDING' ? request.status == 'ACCEPTED' ?
+            (<Typography sx={{ fontWeight: 'bold' }} variant="p">
+              {request.status}
+            </Typography>) : 
+            (<Typography variant="p">
+            {request.status}
+          </Typography>) : ''}
+            </div>
         </CardContent>
-        <CardActions>
+        {request.status == 'PENDING' ? (
+          <CardActions>
           <Button
             onClick={handleAccept}
             req={request.id}
@@ -116,6 +160,8 @@ export default function RequestHostView({ request }) {
             Decline <CloseIcon />
           </Button>
         </CardActions>
+        ) : ''}
+        
       </Box>
     </Card>
   );

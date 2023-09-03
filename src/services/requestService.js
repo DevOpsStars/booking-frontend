@@ -1,10 +1,18 @@
-const RequestService = {
+const BookingService = {
 
     getRequests : (setState) => {
         fetch(process.env.REACT_APP_BOOKING_SERVICE_PATH+'/api/requests')
         .then((response) => response.json())
+        .then((responseJson) => {
+            setState(responseJson);
+        })
+        .catch(error => alert(error.message));
+    },
+
+    getCancelCount : (id, setState) => {
+        fetch(process.env.REACT_APP_BOOKING_SERVICE_PATH+'/api/reservations/'+id+'/cancel-count')
+        .then((response) => response.json())
         .then((responseJson) => {  
-            // console.log("responseJson: ", responseJson);
             setState(responseJson);
         })
         .catch(error => alert(error.message));
@@ -38,4 +46,4 @@ const RequestService = {
     },
 }
 
-export default RequestService
+export default BookingService
