@@ -44,6 +44,15 @@ const BookingService = {
         })
         .catch(error => alert(error.message));
     },
+
+    getActive : (id, setCallback) => {
+        fetch(process.env.REACT_APP_BOOKING_SERVICE_PATH+'/api/reservations/'+id+'/active')
+        .then((response) => response.json())
+        .then((responseJson) => {
+            if(setCallback) setCallback(responseJson);
+        })
+        .catch(error => alert(error.message));
+    },
 }
 
 export default BookingService

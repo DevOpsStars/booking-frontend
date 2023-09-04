@@ -9,20 +9,35 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem'; 
-import AuthService from '../../services/authService';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import bcrypt from "bcryptjs-react";
 import UserService from '../../services/userService';
+import { useNavigate } from 'react-router-dom';
+import AlertDialog from '../alertDialog';
+import jwt from 'jwt-decode';
+import BookingService from '../../services/requestService';
 
 const defaultTheme = createTheme();
 
 export default function UserProfile() {
+    const navigate = useNavigate();
+
     const [role, setRole] = React.useState('');
 
     const [user, setUser] = React.useState(JSON.parse(localStorage.getItem("currentUser")));
+
+    const [userId, setUserId] = React.useState(localStorage.getItem("token") ? jwt(localStorage.getItem("token"))?.id : 0);
+
+    const [activeReservations, setActiveReservations] = React.useState([]);
   
-  
+    React.useEffect(() => {
+      if(!JSON.parse(localStorage.getItem("currentUser")) && !localStorage.getItem("token")) 
+      {navigate("/"); return;}
+
+      BookingService.getActive(userId, setActiveReservations);
+    })
+
     const handleSubmit = (event) => {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
@@ -44,6 +59,20 @@ export default function UserProfile() {
       }
       let hashedPassword = data.get("password") === '' ? '' : bcrypt.hashSync(data.get("password"), 10);
       UserService.updateUser(requestOptions, hashedPassword);
+    };
+
+    const handleDelete = () => {
+
+      if(activeReservations.length !== 0) {alert("You cannot delete your account, you still have active reservations!"); return;}
+
+      //TODO : add checks that are lodging related 
+
+      let requestOptions = {
+        method : 'DELETE',
+        headers: { 'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+ localStorage.getItem("token")}
+      }
+      UserService.deleteUser(requestOptions, user.username);
     };
   
     return (
@@ -71,7 +100,7 @@ export default function UserProfile() {
                     id="firstName"
                     // label="First Name"
                     autoFocus
-                    defaultValue={user.name}
+                    defaultValue={user?.name}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -81,7 +110,7 @@ export default function UserProfile() {
                     // label="Last Name"
                     name="lastName"
                     autoComplete="family-name"
-                    defaultValue={user.surname}
+                    defaultValue={user?.surname}
                    
                   />
                 </Grid>
@@ -92,7 +121,7 @@ export default function UserProfile() {
                     // label="Address"
                     name="address"
                     autoComplete="address"
-                    defaultValue={user.address}
+                    defaultValue={user?.address}
                     
                   />
                 </Grid>
@@ -103,7 +132,7 @@ export default function UserProfile() {
                     // label="Email Address"
                     name="email"
                     autoComplete="email"
-                    defaultValue={user.email}
+                    defaultValue={user?.email}
                     
                   />
                 </Grid>
@@ -114,7 +143,7 @@ export default function UserProfile() {
                     // label="Username"
                     name="username"
                     autoComplete="username"
-                    defaultValue={user.username}
+                    defaultValue={user?.username}
                     
                   />
                 </Grid>
@@ -134,7 +163,7 @@ export default function UserProfile() {
                   <Select
                     labelId="roleSelect"
                     id="roleSelect"
-                    value={user.role}
+                    value={user?.role}
                     label="role"
                   >
                     <MenuItem value={"ROLE_HOST"}>Host</MenuItem>
@@ -151,6 +180,13 @@ export default function UserProfile() {
               >
                 Update my details
               </Button>
+              <AlertDialog 
+                title="Account deletion" 
+                message="Are you sure you want to delete your account permanently?" 
+                variant="contained" 
+                color="error"
+                btnName="Delete account"
+                confirmCallback={handleDelete}/>
             </Box>
           </Box>
           
