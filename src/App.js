@@ -7,10 +7,10 @@ import RequestList from './components/booking/requestList';
 import RequestForm from './components/booking/requestForm';
 import { ThemeProvider, createTheme } from '@mui/material';
 import BookingHostView from './components/booking/bookingList';
-
-// TODO remove, this demo shouldn't need to reset the theme.
+import UserProfile from './components/users/userProfile';
 
 const defaultTheme = createTheme();
+
 
 function App() {
   return (
@@ -23,6 +23,7 @@ function App() {
         <Route path='/requests' element={<BasePage><RequestList/></BasePage>}/>
         <Route path='/my-bookings' element={<BasePage><BookingHostView/></BasePage>}/>
         <Route path='/new-request' element={<BasePage><RequestForm pricePerPerson={15} pricePerNight={64} maxGuests={10} lodgeId={1}/></BasePage>} />
+        <Route path='/profile' element={<BasePage><UserProfile/></BasePage>}/>
       </Routes>
       </ThemeProvider>
     </div>

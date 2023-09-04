@@ -14,6 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import Link from "@mui/material/Link";
 import { useNavigate } from "react-router-dom";
+import UserService from '../services/userService';
 
 const pages = [
   { name: "New lodging", link: "/##" },
@@ -22,7 +23,10 @@ const pages = [
   { name: "Booking Requests", link: "/requests" },
   { name: "New Request", link: "/new-request" }
 ];
-const settings = ["Profile", "Logout"];
+const settings = [
+  {name: "Profile", link: "/profile", function: () => {}},
+  {name: "Logout", link: "/", function: () => {UserService.logout()}}
+];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -167,8 +171,10 @@ function Navbar() {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
+                  <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                    <Link href={setting.link} color="inherit" underline="none" onClick={setting.function}>
+                      <Typography textAlign="center">{setting.name}</Typography>
+                    </Link>
                   </MenuItem>
                 ))}
               </Menu>

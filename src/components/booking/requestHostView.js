@@ -18,7 +18,7 @@ import LocationCityOutlinedIcon from "@mui/icons-material/LocationCityOutlined";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import React, { useEffect, useState } from "react";
 import UserService from "../../services/userService";
-import IconThenText, { TextThenIcon } from "./textWithIcon";
+import IconThenText from "./textWithIcon";
 import BookingService from "../../services/requestService";
 import FormatedDate from "./formatedDate";
 
@@ -70,7 +70,7 @@ export default function RequestHostView({ request }) {
             <Grid item>
             <Chip
               label={cancelCount + ' canceled'}
-              color={cancelCount == 0 ? "default":"error"}
+              color={cancelCount === 0 ? "default":"error"}
               sx={{mr: 1, mt: 1}}
               variant="outlined"
               size="sm"
@@ -130,7 +130,7 @@ export default function RequestHostView({ request }) {
               flexWrap: "wrap",
             }}>
             
-          {request.status != 'PENDING' ? request.status == 'ACCEPTED' ?
+          {request.status !== 'PENDING' ? request.status === 'ACCEPTED' ?
             (<Typography sx={{ fontWeight: 'bold' }} variant="p">
               {request.status}
             </Typography>) : 
@@ -139,7 +139,7 @@ export default function RequestHostView({ request }) {
           </Typography>) : ''}
             </div>
         </CardContent>
-        {request.status == 'PENDING' ? (
+        {request.status === 'PENDING' ? (
           <CardActions>
           <Button
             onClick={handleAccept}
