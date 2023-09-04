@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import RequestHostView from "./requestHostView";
 import { Typography } from "@mui/material";
-import RequestService from '../../services/requestService';
+import BookingService from '../../services/requestService';
 
 export default function RequestList() {
   const [requests, setRequests] = useState([]);
 
   useEffect(() => {
-    RequestService.getRequests(setRequests);
-    // console.log(reqs);
+    BookingService.getRequests(setRequests);
   }, [])
 
   useEffect(() => {console.log(requests);}, [requests]);
