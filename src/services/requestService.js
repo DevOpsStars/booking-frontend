@@ -1,4 +1,5 @@
 const BookingService = {
+    
   getRequests: (setState) => {
     fetch(process.env.REACT_APP_BOOKING_SERVICE_PATH + "/api/requests")
       .then((response) => response.json())

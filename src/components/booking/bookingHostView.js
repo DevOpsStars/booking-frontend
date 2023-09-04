@@ -134,8 +134,8 @@ export default function BookingGuestView({ booking }) {
               Cancel <CheckIcon />
             </Button>
           </CardActions>
-        ) : (
-          <Typography sx={{ fontWeight: "bold" }} variant="p">
+        ) : !booking.canceled ? <Typography variant="p" color='gray' sx={{mb: 2}}>You cannot cancel this</Typography> : (
+          <Typography sx={{ fontWeight: "bold", mb: 2 }} variant="p">
             CANCELED
           </Typography>
         )}

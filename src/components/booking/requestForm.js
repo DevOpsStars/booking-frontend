@@ -39,7 +39,7 @@ export default function RequestForm({lodgeId, maxGuests, pricePerPerson, pricePe
       setTotalPrice(moment(dates[1]).diff(moment(dates[0]), 'days') * pricePerNight);
       if (pricePerPerson > 0) {
 
-        setTotalPrice(guestNumber * pricePerPerson * moment(dates[1]).diff(moment(dates[0]), 'days') * pricePerNight);
+        setTotalPrice(guestNumber * pricePerPerson + moment(dates[1]).diff(moment(dates[0]), 'days') );
       }
     }
     
