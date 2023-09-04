@@ -15,7 +15,7 @@ const UserService = {
         .then((responseJson) => {
             console.log(responseJson);
             let user = responseJson.filter(function (el) {
-                return el.id == id
+                return el.id === id
               })[0];
             setUser(user);
         })

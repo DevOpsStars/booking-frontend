@@ -47,11 +47,11 @@ export default function RequestHostView({ request }) {
   }, [cancelCount]);
 
   const handleAccept = (event) => {
-    BookingService.accept(event.target.getAttribute("req"));
+    BookingService.accept(request.id);
   };
 
   const handleDecline = (event) => {
-    BookingService.decline(event.target.getAttribute("req"));
+    BookingService.decline(request.id);
   };
 
   return (
@@ -143,7 +143,6 @@ export default function RequestHostView({ request }) {
           <CardActions>
           <Button
             onClick={handleAccept}
-            req={request.id}
             size="small"
             variant="outlined"
             color="warning"
@@ -152,7 +151,6 @@ export default function RequestHostView({ request }) {
           </Button>
           <Button
             onClick={handleDecline}
-            req={request.id}
             size="small"
             variant="outlined"
             color="warning"

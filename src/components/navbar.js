@@ -18,7 +18,9 @@ import { useNavigate } from "react-router-dom";
 const pages = [
   { name: "New lodging", link: "/##" },
   { name: "Lodging search", link: "/#" },
-  { name: "Booking Requests", link: "/requests" }
+  { name: "My Bookings", link: "/my-bookings" },
+  { name: "Booking Requests", link: "/requests" },
+  { name: "New Request", link: "/new-request" }
 ];
 const settings = ["Profile", "Logout"];
 
