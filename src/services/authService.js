@@ -13,8 +13,8 @@ const AuthService = {
 
     register : (requestOptions, password) => {
         fetch(process.env.REACT_APP_USER_SERVICE_PATH+'/api/auth/register?password='+password, requestOptions)
-        .then((response) => response.json())
-        .then((responseJson) => {    
+        .then((response) => {
+
         })
         .catch(error => alert(error.message));
     },
