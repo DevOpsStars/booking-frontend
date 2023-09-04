@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AuthService from '../services/authService';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -26,7 +27,10 @@ function Copyright(props) {
 }
 const defaultTheme = createTheme();
 
-export default function SignIn() {
+export default function LoginPage() {
+
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -40,6 +44,12 @@ export default function SignIn() {
     }
     AuthService.login(requestOptions);
   };
+
+  React.useEffect(() => {
+    if(JSON.parse(localStorage.getItem("currentUser")) !== null){
+      navigate("/")
+    }
+  }, [localStorage.getItem("currentUser")])
 
   return (
     <ThemeProvider theme={defaultTheme}>

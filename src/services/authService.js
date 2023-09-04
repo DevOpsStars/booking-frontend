@@ -6,7 +6,7 @@ const AuthService = {
         .then((responseJson) => {  
             localStorage.setItem("currentUser", JSON.stringify(responseJson.user))  
             localStorage.setItem("token", responseJson.jwt)  
-            
+            window.location.reload();
         })
         .catch(error => alert(error.message));
     },

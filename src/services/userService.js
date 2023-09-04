@@ -1,5 +1,3 @@
-import AuthService from "./authService";
-
 const UserService = {
 
     getUsers : (setUsers) => {
@@ -40,6 +38,19 @@ const UserService = {
             .catch(error => alert(error.message));
         })
         .catch(error => alert(error.message));
+    },
+
+    logout : () => {
+        localStorage.removeItem("currentUser");
+        localStorage.removeItem("token");
+    },
+
+    deleteUser : (requestOptions, username) => {
+        fetch(process.env.REACT_APP_USER_SERVICE_PATH+'/api/users/delete?username='+username, requestOptions)
+        .then(() => {
+            UserService.logout();
+            window.location.reload();
+        })
     },
 }
 
