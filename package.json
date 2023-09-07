@@ -25,7 +25,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "dev-start": "set REACT_APP_USER_SERVICE_PATH=http://localhost:8000&& set REACT_APP_BOOKING_SERVICE_PATH=http://localhost:4000&& react-scripts start",
+    "dev-start": "set REACT_APP_USER_SERVICE_PATH=http://localhost:8000&& set REACT_APP_LODGING_SERVICE_PATH=http://localhost:4001&& set REACT_APP_BOOKING_SERVICE_PATH=http://localhost:4000&& react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

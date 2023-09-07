@@ -8,6 +8,8 @@ import RequestForm from './components/booking/requestForm';
 import { ThemeProvider, createTheme } from '@mui/material';
 import BookingHostView from './components/booking/bookingList';
 import UserProfile from './components/users/userProfile';
+import LodgeForm from './components/lodging/lodgeForm';
+import LodgeSearch from './components/lodging/lodgeSearch';
 
 const defaultTheme = createTheme();
 
@@ -24,6 +26,8 @@ function App() {
         <Route path='/my-bookings' element={<BasePage><BookingHostView/></BasePage>}/>
         <Route path='/new-request' element={<BasePage><RequestForm pricePerPerson={15} pricePerNight={64} maxGuests={10} lodgeId={1}/></BasePage>} />
         <Route path='/profile' element={<BasePage><UserProfile/></BasePage>}/>
+        <Route path='/lodge-search' element={<BasePage><LodgeSearch/></BasePage>}/>
+        <Route path='/new-lodge' element={<BasePage><LodgeForm/></BasePage>}/>
       </Routes>
       </ThemeProvider>
     </div>

@@ -14,4 +14,11 @@ module.exports = function(app) {
       changeOrigin: true,
     })
   );
+  app.use(
+    ['/api/availability', '/api/lodge', '/api/photo', '/api/price'],
+    createProxyMiddleware({
+      target: process.env.REACT_APP_LODGING_SERVICE_PATH,
+      changeOrigin: true,
+    })
+  );
 };
