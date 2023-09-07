@@ -17,8 +17,8 @@ import { useNavigate } from "react-router-dom";
 import UserService from '../services/userService';
 
 const pages = [
-  { name: "New lodging", link: "/##" },
-  { name: "Lodging search", link: "/#" },
+  { name: "New lodging", link: "/new-lodge" },
+  { name: "Lodging search", link: "/lodge-search" },
   { name: "My Bookings", link: "/my-bookings" },
   { name: "Booking Requests", link: "/requests" },
   { name: "New Request", link: "/new-request" }
