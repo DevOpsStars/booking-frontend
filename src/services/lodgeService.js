@@ -65,6 +65,14 @@ const LodgingService = {
             setLodgePhotos(responseJson);
         })
         .catch(error => alert(error.message))
+    },
+
+    deleteLodge: (requestOptions, lodgeId) => {
+        fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/lodge/" + lodgeId, requestOptions)
+        .then((response) => {
+            console.log(response)
+        })
+        .catch(error => alert(error.message))
     }
 }
 export default LodgingService;
