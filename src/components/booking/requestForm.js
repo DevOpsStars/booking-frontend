@@ -18,7 +18,7 @@ import { DateRangePicker } from "@mui/x-date-pickers-pro";
 import BookingService from "../../services/requestService";
 import jwt from 'jwt-decode';
 
-export default function RequestForm({lodgeId, maxGuests, pricePerPerson, pricePerNight}) {
+export default function RequestForm({ lodgeId, maxGuests, pricePerPerson, pricePerNight }) {
 
   const [dates, setDates] = useState([moment(), moment()]);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -39,16 +39,16 @@ export default function RequestForm({lodgeId, maxGuests, pricePerPerson, pricePe
       setTotalPrice(moment(dates[1]).diff(moment(dates[0]), 'days') * pricePerNight);
       if (pricePerPerson > 0) {
 
-        setTotalPrice(guestNumber * pricePerPerson + moment(dates[1]).diff(moment(dates[0]), 'days') );
+        setTotalPrice(guestNumber * pricePerPerson + moment(dates[1]).diff(moment(dates[0]), 'days'));
       }
     }
-    
-  },[dates, guestNumber]);
+
+  }, [dates, guestNumber]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     let requestOptions = {
-      method : 'POST',
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         userId: jwt(localStorage.getItem("token")).id,
@@ -88,33 +88,33 @@ export default function RequestForm({lodgeId, maxGuests, pricePerPerson, pricePe
               </LocalizationProvider>
             </Grid>
             <Grid item xs={12}>
-            <FormControl fullWidth sx={{ mt: 3, mb: 2 }}>
-            <TextField
-          id="outlined-number"
-          label="Guest Number"
-          type="number"
-          value={guestNumber}
-          onChange={(e) => {setGuestNumber(e.target.value)}}
-          InputProps={{ inputProps: { min: 1, max: maxGuests } }}
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-        </FormControl>
+              <FormControl fullWidth sx={{ mt: 3, mb: 2 }}>
+                <TextField
+                  id="outlined-number"
+                  label="Guest Number"
+                  type="number"
+                  value={guestNumber}
+                  onChange={(e) => { setGuestNumber(e.target.value) }}
+                  InputProps={{ inputProps: { min: 1, max: maxGuests } }}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </FormControl>
             </Grid>
             <Grid item>
-                <Typography sx={{fontWeight: 'bold'}}>Total Price: ${totalPrice}</Typography>
+              <Typography sx={{ fontWeight: 'bold' }}>Total Price: ${totalPrice}</Typography>
             </Grid>
           </Grid>
           <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="warning"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Send Request
-            </Button>
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="warning"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Send Request
+          </Button>
         </Box>
       </Box>
     </Container>

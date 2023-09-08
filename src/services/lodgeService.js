@@ -1,5 +1,34 @@
 const LodgingService = {
 
+    getLodge: (lodgeId, setState) => {
+        fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/lodge/" + lodgeId)
+        .then((response) => response.json())
+        .then((responseJson) => {
+            setState(responseJson)
+        })
+        .catch((error) => alert(error.message));
+    },
+
+    getLodgesByHost: (hostId, setState) => {
+        fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/lodge/host/" + hostId)
+        .then((response) => response.json())
+        .then((responseJson) => {
+            setState(responseJson)
+        })
+        .catch((error) => alert(error.message));
+    },
+
+    searchLodges: async (requestOptions, setState) => {
+        //TODOOO DODATI REZERVACIJA DA SE ODUZME
+        fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/lodge/search", requestOptions)
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log("EVO STA JE SEARCH VRATIO", responseJson)
+            setState(responseJson)
+        })
+        .catch((error) => alert(error.message));
+    },
+
     getLodges: (setState) => {
         fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/lodge")
             .then((response) => response.json())
@@ -9,7 +38,7 @@ const LodgingService = {
             .catch((error) => alert(error.message));
     },
 
-    newLodge: (requestOptions, setLodge) => {
+    newLodge: async (requestOptions, setLodge) => {
         fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/lodge", requestOptions)
         .then((response) => response.json())
         .then((responseJson) => {
