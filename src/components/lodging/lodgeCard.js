@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import LodgingService from "../../services/lodgeService"
-import { Box, Card, CardActionArea, CardContent, CardMedia, Stack, Typography } from "@mui/material";
+import { Box, Card, CardActionArea, CardContent, CardMedia, Divider, Stack, Typography } from "@mui/material";
 
 
 export default function LodgeCard({ lodge }) {
@@ -38,7 +38,7 @@ export default function LodgeCard({ lodge }) {
 	}
 
 	return (
-		<Card key={lodge.id} sx={{ minWidth: 275, display: "inline-flex", m: 2 }}>
+		<Card key={lodge.id} sx={{ minWidth: 275, display: "inline-flex", m: 2, border: '1px solid coral' }}>
 			<Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", }}>
 					<CardMedia>
 						<Stack direction="row" sx={{ width: '100%', overflow: 'auto' }} spacing={2} justifyContent="center">
@@ -56,10 +56,13 @@ export default function LodgeCard({ lodge }) {
 					<CardContent>
 						<Stack>
 							<Typography variant="h5">
-								{lodge?.title}
+								<i>{lodge?.title}</i>
 							</Typography>
+							<Divider/>
+							<br/>
+							
 							<Typography variant="subtitle">
-								{lodge?.country}, {lodge?.city}
+								Location: <b>{lodge?.country}, {lodge?.city}</b>
 							</Typography>
 							<Typography variant="subtitle">
 								Address: {lodge?.address}

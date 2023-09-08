@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Container, CssBaseline, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Card, CardActions, CardContent, Container, CssBaseline, Grid, Stack, Typography } from "@mui/material";
 import { TextField } from "@mui/material";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 
@@ -8,6 +8,7 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { DateRangePicker } from '@mui/x-date-pickers-pro';
 import LodgeCard from './lodgeCard';
 import LodgingService from '../../services/lodgeService';
+import ResultsCard from './resultsCard';
 
 export default function LodgeSearch() {
 
@@ -105,13 +106,19 @@ export default function LodgeSearch() {
         }}>
         <Typography variant="h5" sx={{ mb: 3 }}>Lodges</Typography>
         <Stack>
-          {lodges && lodges.length > 0 && lodges.map((l) => {
+          {lodges && lodges.length > 0 && lodges.map((l, index) => {
             console.log(l);
-            return <LodgeCard key={l.id} lodge={l} />
+            return (
+              <Box key={index} sx={{ display: 'flex', direction: 'row' }}>
+                <LodgeCard lodge={l} />
+                <ResultsCard result={l.result}/>
+              </Box>
+
+            )
           }
           )}
         </Stack>
       </Box>
-    </Container>
+    </Container >
   )
 }
