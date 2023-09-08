@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import AcUnitIcon from '@mui/icons-material/AcUnit';
+import BungalowIcon from '@mui/icons-material/Bungalow';
 import { Box, Container } from "@mui/system";
 import {
   Avatar,
@@ -20,11 +20,13 @@ import InputLabel from '@mui/material/InputLabel';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
+import { Link } from "react-router-dom";
 
 
 export default function LodgeForm() {
 
   const [priceType, setPriceType] = useState('');
+  const [isAutoApproved, setIsAutoApproved] = useState(false);
   const [hasKitchen, setHasKitchen] = useState(false);
   const [hasWifi, setHasWifi] = useState(false);
   const [hasAC, setHasAC] = useState(false);
@@ -37,6 +39,9 @@ export default function LodgeForm() {
 
   const handleChange = (event) => {
     setPriceType(event.target.value);
+  };
+  const handleIsAutoApproved = (event) => {
+    setIsAutoApproved(!isAutoApproved);
   };
   const handleChangeHasKitchen = (event) => {
     setHasKitchen(!hasKitchen);
@@ -71,7 +76,7 @@ export default function LodgeForm() {
     LodgingService.getPhotosByLodge(lodge.id, setLodgePhotos);
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     let requestOptions = {
@@ -79,7 +84,7 @@ export default function LodgeForm() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         title: data.get('title'),
-        isAutoApproved: data.get('isAutoApproved'),
+        isAutoApproved: isAutoApproved,
         hostId: 1, //TODO uzmi ulogovanog
         description: data.get('description'),
         basePrice: data.get('basePrice'),
@@ -96,7 +101,7 @@ export default function LodgeForm() {
         hasBalcony: hasBalcony,
       })
     }
-    LodgingService.newLodge(requestOptions, setLodge);
+    await LodgingService.newLodge(requestOptions, setLodge);
   }
 
   return (
@@ -111,7 +116,7 @@ export default function LodgeForm() {
         }}
       >
         <Avatar sx={{ mb: 1, bgcolor: "warning.main" }}>
-          <AcUnitIcon />
+          <BungalowIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Create New Lodge
@@ -120,6 +125,7 @@ export default function LodgeForm() {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
+                required
                 autoComplete="title of lodge"
                 name="title"
                 fullWidth
@@ -130,6 +136,7 @@ export default function LodgeForm() {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                required
                 fullWidth
                 id="description"
                 label="Description"
@@ -139,6 +146,7 @@ export default function LodgeForm() {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                required
                 type="number"
                 min={0}
                 step={0.1}
@@ -156,6 +164,7 @@ export default function LodgeForm() {
               <FormControl fullWidth>
                 <InputLabel id="priceTypeSelect">Price type</InputLabel>
                 <Select
+                  required
                   labelId="priceTypeSelect"
                   id="priceTypeSelect"
                   value={priceType}
@@ -171,6 +180,7 @@ export default function LodgeForm() {
 
             <Grid item xs={12}>
               <TextField
+                required
                 fullWidth
                 id="country"
                 label="Country"
@@ -230,6 +240,16 @@ export default function LodgeForm() {
                 label="Maximum number of guests"
                 id="maxGuests"
                 autoComplete="maxGuests"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <h4>Reservations are auto approved?</h4>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Checkbox
+                label="isAutoApproved"
+                value={isAutoApproved}
+                onChange={handleIsAutoApproved}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -352,6 +372,11 @@ export default function LodgeForm() {
                 ))}
               </ImageList>
             </Grid>
+            <Grid item xs={12}>
+                <Link to={`/lodge-dates/${lodge.id}`} color="inherit" underline="none">
+                  Next step: Availability and pricing 
+                </Link>
+              </Grid>
           </Grid>
         </Box>
         }
