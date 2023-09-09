@@ -16,14 +16,6 @@ export default function ResultsCard({ result }) {
                     <Typography><b>Total price: {result.totalPrice} €</b></Typography>
                 </Stack>
             </CardContent>
-            <CardActions>
-                <Button
-                    variant="contained"
-                    color="warning"
-                    sx={{ height: '50px', mt: 3, mb: 2 }}
-                    onClick={() => alert("Go to new request")}
-                >Make a reservation</Button>
-            </CardActions>
         </Card>
     )
 }

@@ -17,8 +17,19 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateRangePicker } from "@mui/x-date-pickers-pro";
 import BookingService from "../../services/requestService";
 import jwt from 'jwt-decode';
+import { useLocation } from "react-router-dom";
 
 export default function RequestForm({ lodgeId, maxGuests, pricePerPerson, pricePerNight }) {
+
+  const { state } = useLocation();
+
+  useEffect(()=>{
+    console.log("LODGE ID: ", state.lodgeId);
+    console.log("GUEST NUMBER: ", state.guestNumber);
+    console.log("RESERVATION START: ",state.reservationStart);
+    console.log("RESERVATION END: ", state.reservationEnd);
+    console.log("TOTAL PRICE: ", state.totalPrice);
+  })
 
   const [dates, setDates] = useState([moment(), moment()]);
   const [totalPrice, setTotalPrice] = useState(0);

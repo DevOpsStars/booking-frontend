@@ -9,10 +9,14 @@ import { DateRangePicker } from '@mui/x-date-pickers-pro';
 import LodgeCard from './lodgeCard';
 import LodgingService from '../../services/lodgeService';
 import ResultsCard from './resultsCard';
+import { useNavigate } from 'react-router-dom';
 
 export default function LodgeSearch() {
 
+  const navigate = useNavigate();
+
   const [dates, setDates] = useState([moment(), moment()]);
+  const [numOfGuests, setNumOfGuests] = useState(0);
   const [lodges, setLodges] = useState([]);
 
   const handleSubmit = async (event) => {
@@ -25,13 +29,26 @@ export default function LodgeSearch() {
         country: data.get('country'),
         city: data.get('city'),
         address: data.get('address'),
-        numOfGuests: data.get('numOfGuests'),
+        numOfGuests: numOfGuests,
         startDate: dates[0].format("YYYY-MM-DD"),
         endDate: dates[1].format("YYYY-MM-DD")
       })
     }
     await LodgingService.searchLodges(requestOptions, setLodges, dates[0].format("YYYY-MM-DD"), dates[1].format("YYYY-MM-DD"));
-    window.location.reload(true)
+    // window.location.reload(true)
+  }
+
+  const goToReservation = (lodgeId, totalPrice) => {
+    navigate("/new-request",
+      {
+        state: {
+          lodgeId: lodgeId,
+          guestNumber: numOfGuests,
+          reservationStart: dates[0].format("YYYY-MM-DD"),
+          reservationEnd: dates[1].format("YYYY-MM-DD"),
+          totalPrice: totalPrice
+        }
+      });
   }
 
   return (
@@ -78,6 +95,13 @@ export default function LodgeSearch() {
                 label="Number of Guests"
                 id="numOfGuests"
                 autoComplete="numOfGuests"
+                value={numOfGuests}
+                onChange={e => setNumOfGuests(e.target.value)}
+                InputProps={{
+                  inputProps: {
+                    max: 50, min: 1
+                  }
+                }}
               />
             </Grid>
             <Grid item >
@@ -111,7 +135,13 @@ export default function LodgeSearch() {
             return (
               <Box key={index} sx={{ display: 'flex', direction: 'row' }}>
                 <LodgeCard lodge={l} />
-                <ResultsCard result={l.result}/>
+                <ResultsCard result={l.result} />
+                <Button
+                  variant="contained"
+                  color="warning"
+                  sx={{ height: '50px', mt: 3, mb: 2 }}
+                  onClick={() => goToReservation(l.lodgeId, l.result.totalPrice)}
+                >Make a reservation</Button>
               </Box>
 
             )
