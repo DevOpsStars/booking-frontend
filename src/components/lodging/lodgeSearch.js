@@ -10,6 +10,8 @@ import LodgeCard from './lodgeCard';
 import LodgingService from '../../services/lodgeService';
 import ResultsCard from './resultsCard';
 import { useNavigate } from 'react-router-dom';
+import BookingService from '../../services/requestService';
+import jwt from 'jwt-decode';
 
 export default function LodgeSearch() {
 
@@ -35,20 +37,23 @@ export default function LodgeSearch() {
       })
     }
     await LodgingService.searchLodges(requestOptions, setLodges, dates[0].format("YYYY-MM-DD"), dates[1].format("YYYY-MM-DD"));
-    window.location.reload(true)
   }
 
-  const goToReservation = (lodgeId, totalPrice) => {
-    navigate("/new-request",
-      {
-        state: {
-          lodgeId: lodgeId,
-          guestNumber: numOfGuests,
-          reservationStart: dates[0].format("YYYY-MM-DD"),
-          reservationEnd: dates[1].format("YYYY-MM-DD"),
-          totalPrice: totalPrice
-        }
-      });
+  const makeReservation = (lodgeId, totalPrice) => {
+    let requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userId: localStorage.getItem("token") ? jwt(localStorage.getItem("token")).id : 1, // TODO SKLONITI 1
+        lodgeId: lodgeId,
+        guestNumber: numOfGuests,
+        reservationStart: dates[0].format("YYYY-MM-DD"),
+        reservationEnd: dates[1].format("YYYY-MM-DD"),
+        totalPrice: totalPrice
+      })
+    }
+    alert(requestOptions.body);
+    BookingService.newRequest(requestOptions);
   }
 
   return (
@@ -140,7 +145,7 @@ export default function LodgeSearch() {
                   variant="contained"
                   color="warning"
                   sx={{ height: '50px', mt: 3, mb: 2 }}
-                  onClick={() => goToReservation(l.lodgeId, l.result.totalPrice)}
+                  onClick={() => makeReservation(l.lodgeId, l.result.totalPrice)}
                 >Make a reservation</Button>
               </Box>
 
