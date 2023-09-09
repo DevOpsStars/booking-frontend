@@ -133,8 +133,7 @@ export default function LodgeDatesForm() {
                 <Box sx={{ mb: 8 }}>
                     <h3><i>Currently available</i></h3>
                     {availabilities.map((item, index) => (
-                        <Box key={index} sx={{ mb: 3 }}>
-                            {/* <h4>henlo</h4> */}
+                        <Box key={index} sx={{ mb: 3, paddingTop:3, paddingLeft: 3, paddingRight: 3, border: '1px solid coral' }}>
                             <LocalizationProvider dateAdapter={AdapterMoment}>
                                 <DateRangePicker readOnly format="DD/MM/YYYY" value={[moment(item.start), moment(item.end)]} />
                             </LocalizationProvider>
@@ -162,19 +161,19 @@ export default function LodgeDatesForm() {
                     value={priceModTitle}
                     onChange={e => setPriceModTitle(e.target.value)}
                 />
-                <InputLabel id="priceTypeSelect" sx={{ mt: 2}}>Modification type</InputLabel>
+                <InputLabel id="priceTypeSelect" sx={{ mt: 2 }}>Modification type</InputLabel>
                 <Select
-                  required
-                  fullWidth
-                  labelId="modTypeSelect"
-                  id="modTypeSelect"
-                  value={modType}
-                  label="modType"
-                  onChange={handleChangeModType}
-                  sx={{mb: 3, mt: 2}}
+                    required
+                    fullWidth
+                    labelId="modTypeSelect"
+                    id="modTypeSelect"
+                    value={modType}
+                    label="modType"
+                    onChange={handleChangeModType}
+                    sx={{ mb: 3, mt: 2 }}
                 >
-                  <MenuItem value={"DISCOUNT"}>Discount</MenuItem>
-                  <MenuItem value={"PRICE_INCREASE"}>Price increase</MenuItem>
+                    <MenuItem value={"DISCOUNT"}>Discount</MenuItem>
+                    <MenuItem value={"PRICE_INCREASE"}>Price increase</MenuItem>
                 </Select>
                 <TextField
                     fullWidth
@@ -188,7 +187,7 @@ export default function LodgeDatesForm() {
                     InputProps={{
                         inputProps: { min: 1, max: 100 },
                         endAdornment: <InputAdornment position="end">%</InputAdornment>,
-                      }}
+                    }}
                 />
                 <Button
                     fullWidth
@@ -200,10 +199,10 @@ export default function LodgeDatesForm() {
                 </Button>
                 <Box sx={{ mb: 8 }}>
                     {priceMods.map((item, index) => (
-                        <Box key={index} sx={{ mb: 3 }}>
+                        <Box key={index} sx={{ mb: 3, border: '1px solid coral' }}>
                             <Typography variant="h4">{item.title}</Typography>
-                            <Typography variant="h6"><i>({item.modificationType==="DISCOUNT" ? "Discount" : "Price increase"})</i></Typography>
-                            <Typography variant="h5">{item.modificationType==="DISCOUNT" ? "- " : "+ "}{item.percentage}%</Typography>
+                            <Typography variant="h6"><i>({item.modificationType === "DISCOUNT" ? "Discount" : "Price increase"})</i></Typography>
+                            <Typography variant="h5">{item.modificationType === "DISCOUNT" ? "- " : "+ "}{item.percentage}%</Typography>
                             <LocalizationProvider dateAdapter={AdapterMoment}>
                                 <DateRangePicker readOnly format="DD/MM/YYYY" value={[moment(item.start), moment(item.end)]} />
                             </LocalizationProvider>
