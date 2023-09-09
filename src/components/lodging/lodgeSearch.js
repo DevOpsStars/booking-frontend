@@ -30,7 +30,7 @@ export default function LodgeSearch() {
         endDate: dates[1].format("YYYY-MM-DD")
       })
     }
-    await LodgingService.searchLodges(requestOptions, setLodges);
+    await LodgingService.searchLodges(requestOptions, setLodges, dates[0].format("YYYY-MM-DD"), dates[1].format("YYYY-MM-DD"));
     window.location.reload(true)
   }
 
