@@ -1,59 +1,77 @@
 const LodgeDatesService = {
 
-    newAvailability: async (requestOptions) => {
-        fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/availability", requestOptions)
-        .then((response) => response.json())
-        .then((responseJson) => {
-            alert("from service availability method: " + JSON.stringify(responseJson));
-            console.log(responseJson);
-        })
-        .catch(error => alert(error.message))
-    },
+  newAvailability: async (requestOptions) => {
+    fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/availability", requestOptions)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        alert("from service availability method: " + JSON.stringify(responseJson));
+        console.log(responseJson);
+      })
+      .catch(error => alert(error.message))
+  },
 
-    getAvailabilitiesByLodge: (lodgeId, setAvailabilities) => {
-        fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/availability/lodge/" + lodgeId)
-        .then((response) => response.json())
-        .then((responseJson) => {
-            console.log(responseJson)
-            setAvailabilities(responseJson);
-        })
-        .catch(error => alert(error.message))
-    },
+  getAvailabilitiesByLodge: (lodgeId, setAvailabilities) => {
+    fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/availability/lodge/" + lodgeId)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson)
+        setAvailabilities(responseJson);
+      })
+      .catch(error => alert(error.message))
+  },
 
-    deleteAvailability: (requestOptions, id) => {
-        fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/availability/" + id, requestOptions)
-        .then((response) => {
+  deleteAvailability: (requestOptions, lodgeId, availabilityId, start, end) => {
+    fetch(process.env.REACT_APP_BOOKING_SERVICE_PATH + "/api/reservations/lodge/" + lodgeId + "/period/count?start=" + start + "&end=" + end)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        if (responseJson === 0) {
+          fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/availability/" + availabilityId, requestOptions)
+            .then((response) => {
+              console.log(response)
+            })
+            .catch(error => alert(error.message))
+        } else {
+          alert("could not delete, because of existing reservations")
+        }
+      })
+      .catch(error => alert(error.message))
+  },
+
+  newPriceModification: async (requestOptions) => {
+    fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/price", requestOptions)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        alert("from service price method: " + JSON.stringify(responseJson));
+        console.log(responseJson);
+      })
+      .catch(error => alert(error.message))
+  },
+
+  getPriceModificationsByLodge: (lodgeId, setPriceMods) => {
+    fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/price/lodge/" + lodgeId)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson)
+        setPriceMods(responseJson);
+      })
+      .catch(error => alert(error.message))
+  },
+
+  deletePriceMod: (requestOptions, lodgeId, modificationId, start, end) => {
+    fetch(process.env.REACT_APP_BOOKING_SERVICE_PATH + "/api/reservations/lodge/" + lodgeId + "/period/count?start=" + start + "&end=" + end)
+    .then((response) => response.json())
+    .then((responseJson) => {
+      if (responseJson === 0) {
+        fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/price/" + modificationId, requestOptions)
+          .then((response) => {
             console.log(response)
-        })
-        .catch(error => alert(error.message))
-    },
-
-    newPriceModification: async (requestOptions) => {
-        fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/price", requestOptions)
-        .then((response) => response.json())
-        .then((responseJson) => {
-            alert("from service price method: " + JSON.stringify(responseJson));
-            console.log(responseJson);
-        })
-        .catch(error => alert(error.message))
-    },
-
-    getPriceModificationsByLodge: (lodgeId, setPriceMods) => {
-        fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/price/lodge/" + lodgeId)
-        .then((response) => response.json())
-        .then((responseJson) => {
-            console.log(responseJson)
-            setPriceMods(responseJson);
-        })
-        .catch(error => alert(error.message))
-    },
-
-    deletePriceMod: (requestOptions, id) => {
-        fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/price/" + id, requestOptions)
-        .then((response) => {
-            console.log(response)
-        })
-        .catch(error => alert(error.message))
-    }
+          })
+          .catch(error => alert(error.message))
+      } else {
+        alert("could not delete, because of existing reservations")
+      }
+    })
+    .catch(error => alert(error.message))
+  }
 }
 export default LodgeDatesService;
