@@ -20,6 +20,7 @@ export default function LodgesList() {
     }
     LodgingService.deleteLodge(requestOptions, lodgeId);
     LodgingService.getLodgesByHost(1, setLodges);
+    window.location.reload(true)
   }
 
   return (
