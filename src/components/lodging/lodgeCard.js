@@ -10,6 +10,8 @@ export default function LodgeCard({ lodge }) {
 	useEffect(() => {
 		if(lodge.id){
 			LodgingService.getPhotosByLodge(lodge.id, setLodgePhotos);
+		}else{
+			LodgingService.getPhotosByLodge(lodge.lodgeId, setLodgePhotos);
 		}
 	}, [])
 
