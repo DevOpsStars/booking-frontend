@@ -118,6 +118,7 @@ export default function LodgeDatesForm() {
                 <h2>When is {lodge.title} available?</h2>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DateRangeCalendar
+                        disablePast
                         value={value}
                         onChange={(newValue) => setValue(newValue)}
                     />
@@ -147,6 +148,7 @@ export default function LodgeDatesForm() {
                 <h3>Any discounts or special offers?</h3>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DateRangeCalendar
+                        disablePast
                         value={modValue}
                         onChange={(newModValue) => setModValue(newModValue)}
                     />

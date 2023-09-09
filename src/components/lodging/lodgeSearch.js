@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Card, CardActions, CardContent, Container, CssBaseline, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Container, CssBaseline, Grid, Stack, Typography } from "@mui/material";
 import { TextField } from "@mui/material";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 
@@ -35,7 +35,7 @@ export default function LodgeSearch() {
       })
     }
     await LodgingService.searchLodges(requestOptions, setLodges, dates[0].format("YYYY-MM-DD"), dates[1].format("YYYY-MM-DD"));
-    // window.location.reload(true)
+    window.location.reload(true)
   }
 
   const goToReservation = (lodgeId, totalPrice) => {
@@ -106,7 +106,7 @@ export default function LodgeSearch() {
             </Grid>
             <Grid item >
               <LocalizationProvider dateAdapter={AdapterMoment}>
-                <DateRangePicker format="DD/MM/YYYY" value={dates} onChange={(newValue) => setDates(newValue)} />
+                <DateRangePicker disablePast format="DD/MM/YYYY" value={dates} onChange={(newValue) => setDates(newValue)} />
               </LocalizationProvider>
             </Grid>
           </Grid>
