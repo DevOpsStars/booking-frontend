@@ -4,12 +4,15 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import LodgingService from '../../services/lodgeService';
 import LodgeCard from "./lodgeCard";
 import { useNavigate } from "react-router-dom";
+import jwt from 'jwt-decode';
 
 export default function LodgesList() {
   const [lodges, setLodges] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-    LodgingService.getLodgesByHost(1, setLodges);
+    LodgingService.getLodgesByHost(// TODO skloniti 1
+      localStorage.getItem("token") ? jwt(localStorage.getItem("token")).id : 1, 
+      setLodges);
   }, [])
 
   useEffect(() => { console.log(lodges); }, [lodges]);

@@ -22,17 +22,20 @@ const LodgingService = {
     fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/lodge/search", requestOptions)
       .then((response) => response.json())
       .then((lodges) => {
-        // let goodResults = []
-        // for (let i = 0; i < lodges.length; i++) {
-        //   fetch(process.env.REACT_APP_BOOKING_SERVICE_PATH + "/api/reservations/lodge/" + lodges[i].lodgeId + "/period/count?start=" + start + "&end=" + end)
-        //     .then((count) => {
-        //       if (count === 0) {
-        //         goodResults.push(lodges[i])
-        //       }
-        //     })
-        // }
-        // setState(goodResults)
-        setState(lodges)
+        let goodResults = []
+        for (let i = 0; i < lodges.length; i++) {
+          fetch(process.env.REACT_APP_BOOKING_SERVICE_PATH + "/api/reservations/lodge/" + lodges[i].lodgeId + "/period/count?start=" + start + "&end=" + end)
+    
+            .then((response) => response.json())
+            .then((responseJson) => {
+              if (responseJson === 0) {
+                goodResults.push(lodges[i])
+              }
+            })
+        }
+        console.log("GOOD RESULTS", goodResults)
+        console.log("ALL LODGES", lodges)
+        setState(goodResults)
       })
       .catch((error) => alert(error.message));
   },
