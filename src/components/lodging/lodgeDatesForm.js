@@ -81,20 +81,20 @@ export default function LodgeDatesForm() {
         window.location.reload(true)
     }
 
-    const deleteAvailability = (id) => {
+    const deleteAvailability = (a) => {
         let requestOptions = {
             method: 'DELETE'
         }
-        LodgeDatesService.deleteAvailability(requestOptions, id);
+        LodgeDatesService.deleteAvailability(requestOptions, lodgeId, a.id, a.start, a.end);
         LodgeDatesService.getAvailabilitiesByLodge(lodgeId, setAvailabilities);
         window.location.reload(true)
     }
 
-    const deletePriceMod = (id) => {
+    const deletePriceMod = (mod) => {
         let requestOptions = {
             method: 'DELETE'
         }
-        LodgeDatesService.deletePriceMod(requestOptions, id);
+        LodgeDatesService.deletePriceMod(requestOptions, lodgeId, mod.id, mod.start, mod.end);
         LodgeDatesService.getPriceModificationsByLodge(lodgeId, setPriceMods);
         window.location.reload(true)
     }
@@ -138,7 +138,7 @@ export default function LodgeDatesForm() {
                             <LocalizationProvider dateAdapter={AdapterMoment}>
                                 <DateRangePicker readOnly format="DD/MM/YYYY" value={[moment(item.start), moment(item.end)]} />
                             </LocalizationProvider>
-                            <IconButton aria-label="delete" onClick={() => deleteAvailability(item.id)}>
+                            <IconButton aria-label="delete" onClick={() => deleteAvailability(item)}>
                                 <DeleteIcon />
                             </IconButton>
                         </Box>
@@ -208,7 +208,7 @@ export default function LodgeDatesForm() {
                             <LocalizationProvider dateAdapter={AdapterMoment}>
                                 <DateRangePicker readOnly format="DD/MM/YYYY" value={[moment(item.start), moment(item.end)]} />
                             </LocalizationProvider>
-                            <IconButton aria-label="delete" onClick={() => deletePriceMod(item.id)}>
+                            <IconButton aria-label="delete" onClick={() => deletePriceMod(item)}>
                                 <DeleteIcon />
                             </IconButton>
                         </Box>
