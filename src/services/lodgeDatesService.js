@@ -26,6 +26,34 @@ const LodgeDatesService = {
             console.log(response)
         })
         .catch(error => alert(error.message))
+    },
+
+    newPriceModification: async (requestOptions) => {
+        fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/price", requestOptions)
+        .then((response) => response.json())
+        .then((responseJson) => {
+            alert("from service price method: " + JSON.stringify(responseJson));
+            console.log(responseJson);
+        })
+        .catch(error => alert(error.message))
+    },
+
+    getPriceModificationsByLodge: (lodgeId, setPriceMods) => {
+        fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/price/lodge/" + lodgeId)
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson)
+            setPriceMods(responseJson);
+        })
+        .catch(error => alert(error.message))
+    },
+
+    deletePriceMod: (requestOptions, id) => {
+        fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/price/" + id, requestOptions)
+        .then((response) => {
+            console.log(response)
+        })
+        .catch(error => alert(error.message))
     }
 }
 export default LodgeDatesService;
