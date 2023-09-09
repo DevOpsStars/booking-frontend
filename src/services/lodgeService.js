@@ -1,6 +1,6 @@
 const LodgingService = {
 
-    getLodge: (lodgeId, setState) => {
+    getLodge: async (lodgeId, setState) => {
         fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/lodge/" + lodgeId)
         .then((response) => response.json())
         .then((responseJson) => {

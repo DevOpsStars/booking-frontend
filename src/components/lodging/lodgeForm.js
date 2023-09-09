@@ -74,6 +74,7 @@ export default function LodgeForm() {
 
     LodgingService.uploadPhoto(requestOptions, lodge.id, photoTitle);
     LodgingService.getPhotosByLodge(lodge.id, setLodgePhotos);
+    window.location.reload(true)
   }
 
   const handleSubmit = async (event) => {
@@ -102,6 +103,7 @@ export default function LodgeForm() {
       })
     }
     await LodgingService.newLodge(requestOptions, setLodge);
+    window.location.reload(true)
   }
 
   return (

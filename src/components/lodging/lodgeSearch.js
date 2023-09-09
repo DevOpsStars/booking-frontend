@@ -31,7 +31,7 @@ export default function LodgeSearch() {
       })
     }
     await LodgingService.searchLodges(requestOptions, setLodges);
-    // LodgingService.searchLodges(requestOptions, setLodges);
+    window.location.reload(true)
   }
 
   return (
