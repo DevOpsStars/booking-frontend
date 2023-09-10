@@ -17,7 +17,7 @@ export default function LodgeSearch() {
   const navigate = useNavigate();
 
   const [dates, setDates] = useState([moment(), moment()]);
-  const [numOfGuests, setNumOfGuests] = useState(0);
+  const [numOfGuests, setNumOfGuests] = useState(1);
   const [lodges, setLodges] = useState([]);
 
   const handleSubmit = (event) => {
@@ -105,6 +105,7 @@ export default function LodgeSearch() {
                 label="Number of Guests"
                 id="numOfGuests"
                 autoComplete="numOfGuests"
+                min={1}
                 value={numOfGuests}
                 onChange={e => setNumOfGuests(e.target.value)}
                 InputProps={{

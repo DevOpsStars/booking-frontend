@@ -6,7 +6,7 @@ const LodgingService = {
       .then((responseJson) => {
         setState(responseJson)
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => {console.log(error.message)});
   },
 
   getLodgesByHost: (hostId, setState) => {
@@ -15,7 +15,7 @@ const LodgingService = {
       .then((responseJson) => {
         setState(responseJson)
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => {console.log(error.message)});
   },
 
   searchLodges: (requestOptions, setState, start, end) => {
@@ -24,7 +24,7 @@ const LodgingService = {
       .then((lodges) => {
         setState(lodges)
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => {console.log(error.message)});
   },
 
   getLodges: (setState) => {
@@ -33,7 +33,7 @@ const LodgingService = {
       .then((responseJson) => {
         setState(responseJson)
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => {console.log(error.message)});
   },
 
   newLodge: async (requestOptions, setLodge) => {
@@ -44,7 +44,7 @@ const LodgingService = {
         setLodge(responseJson);
         console.log(responseJson);
       })
-      .catch(error => alert(error.message))
+      .catch(error => {console.log(error.message)})
   },
 
   uploadPhoto: (requestOptions, lodgeId, title) => {
@@ -52,7 +52,7 @@ const LodgingService = {
       .then((response) => {
         console.log(response)
       })
-      .catch(error => alert(error.message))
+      .catch(error => {console.log(error.message)})
   },
 
   getPhotosByLodge: (lodgeId, setLodgePhotos) => {
@@ -62,7 +62,7 @@ const LodgingService = {
         console.log(responseJson)
         setLodgePhotos(responseJson);
       })
-      .catch(error => alert(error.message))
+      .catch(error => {console.log(error.message)})
   },
 
   deleteLodge: (requestOptions, lodgeId) => {
@@ -70,7 +70,7 @@ const LodgingService = {
       .then((response) => {
         console.log(response)
       })
-      .catch(error => alert(error.message))
+      .catch(error => {console.log(error.message)})
   }
 }
 export default LodgingService;

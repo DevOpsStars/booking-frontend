@@ -6,7 +6,7 @@ const UserService = {
         .then((responseJson) => {  
             setUsers(responseJson);
         })
-        .catch(error => alert(error.message));
+        .catch(error => {console.log(error.message)});
     },
 
     getUser : (id, setUser, requestOptions) => {
@@ -35,9 +35,9 @@ const UserService = {
             .then((responseJson) => {
                 localStorage.setItem("currentUser", JSON.stringify(responseJson))
             })
-            .catch(error => alert(error.message));
+            .catch(error => {console.log(error.message)});
         })
-        .catch(error => alert(error.message));
+        .catch(error => {console.log(error.message)});
     },
 
     logout : () => {

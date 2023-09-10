@@ -13,15 +13,26 @@ import UserService from "../../services/userService";
 import BookingService from "../../services/requestService";
 import FormatedDate from "./formatedDate";
 import moment from "moment";
+import LodgeCard from "../lodging/lodgeCard";
+import LodgingService from "../../services/lodgeService";
+import NewRating from "../rating/newRating"
 
 export default function BookingGuestView({ booking }) {
   const [user, setUser] = useState({});
   const [cancelCount, setCancelCount] = useState(0);
+  const [lodge, setLodge] = useState({});
 
   const canCancel = (startDate) => {
     const now = moment().startOf('day');
     const daysDifference = moment(startDate).diff(now, 'days');
     return daysDifference > 1;
+  };
+
+  const canRate = (endDate) => {
+    if (booking.canceled) {return false;}
+    const now = moment().startOf('day');
+    const daysDifference = moment(endDate).diff(now, 'days');
+    return daysDifference <= 0;
   };
 
   useEffect(() => {
@@ -43,7 +54,7 @@ export default function BookingGuestView({ booking }) {
 
   return (
     <Card key={booking.id} sx={{ minWidth: 275, display: "inline-flex", m: 2 }}>
-      Here we could display image
+      <LodgeCard lodge={lodge}/>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent>
           <Typography variant="h4" component="div">
@@ -123,6 +134,7 @@ export default function BookingGuestView({ booking }) {
             )}
           </div>
         </CardContent>
+
         {!booking.canceled && canCancel(booking.reservationStart) ? (
           <CardActions>
             <Button
@@ -139,6 +151,14 @@ export default function BookingGuestView({ booking }) {
             CANCELED
           </Typography>
         )}
+        {/* <div> */}
+          {canRate(booking.reservationEnd) ? (
+          <div>
+            <NewRating type="lodge" forId={booking.lodgeId}/>
+            <NewRating type="host" forId={lodge.hostId}/>
+          </div>
+          ) : ""}
+        {/* </div> */}
       </Box>
     </Card>
   );
@@ -152,5 +172,6 @@ export default function BookingGuestView({ booking }) {
       },
     };
     UserService.getUser(booking.userId, setUser, requestOptions);
+    LodgingService.getLodge(booking.lodgeId, setLodge);
   }
 }

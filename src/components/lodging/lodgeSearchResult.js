@@ -6,11 +6,13 @@ import ResultsCard from './resultsCard';
 import { useNavigate } from 'react-router-dom';
 import BookingService from '../../services/requestService';
 import jwt from 'jwt-decode';
+import LodgingService from '../../services/lodgeService';
 
 export default function LodgeSearchResult({lodge, start, end, numOfGuests}) {
 
   const navigate = useNavigate();
   const [count, setCount] = useState(-1);
+  const [l, setL] = useState({})
 
   useEffect(() => {
     console.log("*****************", lodge)
@@ -18,6 +20,11 @@ export default function LodgeSearchResult({lodge, start, end, numOfGuests}) {
     console.log("*****************", end)
     console.log("*****************", numOfGuests)
     BookingService.getReservationsCount(lodge.lodgeId, start, end, setCount)
+    
+    if (lodge && lodge.lodgeId) {
+      console.log("searchResult",lodge.lodgeId)
+      LodgingService.getLodge(lodge.lodgeId, setL)
+    }
   }, []);
 
   const makeReservation = (lodgeId, totalPrice) => {
@@ -34,9 +41,22 @@ export default function LodgeSearchResult({lodge, start, end, numOfGuests}) {
       })
     }
     alert(requestOptions.body);
-    BookingService.newRequest(requestOptions);
-    navigate("/requests")
+    if (l.isAutoApproved) {
+      console.log("auto");
+      BookingService.newRequestAuto(requestOptions);
+      // navigate("/my-bookings")
+    }
+    else {
+      console.log("no auto");
+      BookingService.newRequest(requestOptions);
+      // navigate("/requests")
+    }
   }
+
+  useEffect(() => {
+		console.log(l)
+    console.log("is auto:", l.isAutoApproved)
+	}, [l])
 
 
   return (
