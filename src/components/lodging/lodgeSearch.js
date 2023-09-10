@@ -6,12 +6,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import moment from "moment";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { DateRangePicker } from '@mui/x-date-pickers-pro';
-import LodgeCard from './lodgeCard';
 import LodgingService from '../../services/lodgeService';
-import ResultsCard from './resultsCard';
 import { useNavigate } from 'react-router-dom';
 import BookingService from '../../services/requestService';
 import jwt from 'jwt-decode';
+import LodgeSearchResult from './lodgeSearchResult';
 
 export default function LodgeSearch() {
 
@@ -21,7 +20,7 @@ export default function LodgeSearch() {
   const [numOfGuests, setNumOfGuests] = useState(0);
   const [lodges, setLodges] = useState([]);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     let requestOptions = {
@@ -36,7 +35,7 @@ export default function LodgeSearch() {
         endDate: dates[1].format("YYYY-MM-DD")
       })
     }
-    await LodgingService.searchLodges(requestOptions, setLodges, dates[0].format("YYYY-MM-DD"), dates[1].format("YYYY-MM-DD"));
+    LodgingService.searchLodges(requestOptions, setLodges, dates[0].format("YYYY-MM-DD"), dates[1].format("YYYY-MM-DD"));
   }
 
   const makeReservation = (lodgeId, totalPrice) => {
@@ -54,6 +53,12 @@ export default function LodgeSearch() {
     }
     alert(requestOptions.body);
     BookingService.newRequest(requestOptions);
+  }
+
+  const countReservations = (lodgeId, start, end) => {
+    let count = BookingService.getReservationsCount(lodgeId, start, end);
+    console.log(count, typeof(count))
+    return count
   }
 
   return (
@@ -138,17 +143,7 @@ export default function LodgeSearch() {
           {lodges && lodges.length > 0 && lodges.map((l, index) => {
             console.log(l);
             return (
-              <Box key={index} sx={{ display: 'flex', direction: 'row' }}>
-                <LodgeCard lodge={l} />
-                <ResultsCard result={l.result} />
-                <Button
-                  variant="contained"
-                  color="warning"
-                  sx={{ height: '50px', mt: 3, mb: 2 }}
-                  onClick={() => makeReservation(l.lodgeId, l.result.totalPrice)}
-                >Make a reservation</Button>
-              </Box>
-
+              <LodgeSearchResult key={index} lodge={l} numOfGuests={numOfGuests} start={dates[0].format("YYYY-MM-DD")} end={dates[1].format("YYYY-MM-DD")}/>
             )
           }
           )}

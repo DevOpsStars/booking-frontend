@@ -100,6 +100,13 @@ const BookingService = {
         .catch((error) => alert(error.message));
   },
     
+  getReservationsCount: async (lodgeId, start, end, setCount) => {
+    fetch(process.env.REACT_APP_BOOKING_SERVICE_PATH + "/api/reservations/lodge/" + lodgeId + "/period/count?start=" + start + "&end=" + end)
+    .then((response) => response.json())
+    .then((responseJson) => {
+      setCount(responseJson);
+    })
+  }
 }
 
 export default BookingService;
