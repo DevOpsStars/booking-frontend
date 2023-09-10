@@ -21,4 +21,11 @@ module.exports = function(app) {
       changeOrigin: true,
     })
   );
+  app.use(
+    ['/api/host-ratings', '/api/lodge-ratings'],
+    createProxyMiddleware({
+      target: process.env.REACT_APP_RATING_SERVICE_PATH,
+      changeOrigin: true,
+    })
+  );
 };

@@ -7,7 +7,7 @@ const LodgeDatesService = {
         alert("from service availability method: " + JSON.stringify(responseJson));
         console.log(responseJson);
       })
-      .catch(error => alert(error.message))
+      .catch(error => {console.log(error.message)})
   },
 
   getAvailabilitiesByLodge: (lodgeId, setAvailabilities) => {
@@ -17,7 +17,7 @@ const LodgeDatesService = {
         console.log(responseJson)
         setAvailabilities(responseJson);
       })
-      .catch(error => alert(error.message))
+      .catch(error => {console.log(error.message)})
   },
 
   deleteAvailability: (requestOptions, lodgeId, availabilityId, start, end) => {
@@ -29,12 +29,12 @@ const LodgeDatesService = {
             .then((response) => {
               console.log(response)
             })
-            .catch(error => alert(error.message))
+            .catch(error => {console.log(error.message)})
         } else {
           alert("could not delete, because of existing reservations")
         }
       })
-      .catch(error => alert(error.message))
+      .catch(error => {console.log(error.message)})
   },
 
   newPriceModification: async (requestOptions) => {
@@ -44,7 +44,7 @@ const LodgeDatesService = {
         alert("from service price method: " + JSON.stringify(responseJson));
         console.log(responseJson);
       })
-      .catch(error => alert(error.message))
+      .catch(error => {console.log(error.message)})
   },
 
   getPriceModificationsByLodge: (lodgeId, setPriceMods) => {
@@ -54,7 +54,7 @@ const LodgeDatesService = {
         console.log(responseJson)
         setPriceMods(responseJson);
       })
-      .catch(error => alert(error.message))
+      .catch(error => {console.log(error.message)})
   },
 
   deletePriceMod: (requestOptions, lodgeId, modificationId, start, end) => {
@@ -66,12 +66,12 @@ const LodgeDatesService = {
           .then((response) => {
             console.log(response)
           })
-          .catch(error => alert(error.message))
+          .catch(error => {console.log(error.message)})
       } else {
         alert("could not delete, because of existing reservations")
       }
     })
-    .catch(error => alert(error.message))
+    .catch(error => {console.log(error.message)})
   }
 }
 export default LodgeDatesService;

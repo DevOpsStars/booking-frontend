@@ -8,7 +8,7 @@ const AuthService = {
             localStorage.setItem("token", responseJson.jwt)  
             window.location.reload();
         })
-        .catch(error => alert(error.message));
+        .catch(error => {console.log(error.message)});
     },
 
     register : (requestOptions, password) => {
@@ -16,7 +16,7 @@ const AuthService = {
         .then((response) => {
 
         })
-        .catch(error => alert(error.message));
+        .catch(error => {console.log(error.message)});
     },
 }
 

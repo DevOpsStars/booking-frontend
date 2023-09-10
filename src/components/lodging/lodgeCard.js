@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react"
 import LodgingService from "../../services/lodgeService"
 import { Box, Card, CardActionArea, CardContent, CardMedia, Divider, Stack, Typography } from "@mui/material";
+import RatingList from "../rating/ratingList"
 
 
 export default function LodgeCard({ lodge }) {
 
 	const [lodgePhotos, setLodgePhotos] = useState([]);
+	const [l, setL] = useState({});
 	
 	useEffect(() => {
 		if(lodge.id){
@@ -16,7 +18,7 @@ export default function LodgeCard({ lodge }) {
 	}, [])
 
 	useEffect(() => {
-		console.log(lodgePhotos);
+		// console.log(lodgePhotos);
 	}, [lodgePhotos]);
 
 	const getAmenities = (lodge) => {
@@ -39,8 +41,15 @@ export default function LodgeCard({ lodge }) {
 		return amenities;
 	}
 
+	useEffect(() => {
+		if (lodge && lodge.lodgeId) {
+			console.log("lodge card",lodge,lodge.lodgeId)
+			LodgingService.getLodge(lodge.lodgeId, setL)
+		}
+	}, [lodge])
+
 	return (
-		<Card key={lodge.id} sx={{ minWidth: 275, display: "inline-flex", m: 2, border: '1px solid coral' }}>
+		<Card sx={{ minWidth: 275, display: "inline-flex", m: 2, border: '1px solid coral' }}>
 			<Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", }}>
 					<CardMedia>
 						<Stack direction="row" sx={{ width: '100%', overflow: 'auto' }} spacing={2} justifyContent="center">
@@ -75,6 +84,8 @@ export default function LodgeCard({ lodge }) {
 							<Typography variant="subtitle">
 								{lodge ? getAmenities(lodge) : ""}
 							</Typography>
+							{lodge && lodge.lodgeId ? <RatingList type="lodge" forId={lodge?.lodgeId} /> : ""}
+							{l && l.hostId ? <RatingList type="host" forId={l?.hostId} /> : ""}
 						</Stack>
 					</CardContent>
 			</Box>

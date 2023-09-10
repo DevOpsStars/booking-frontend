@@ -6,7 +6,7 @@ const BookingService = {
       .then((responseJson) => {
         setState(responseJson);
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => {console.log(error.message)});
   },
 
   getCancelCount: (id, setState) => {
@@ -20,7 +20,7 @@ const BookingService = {
       .then((responseJson) => {
         setState(responseJson);
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => {console.log(error.message)});
   },
 
   newRequest: (requestOptions) => {
@@ -32,7 +32,19 @@ const BookingService = {
       .then((responseJson) => {
         alert("from service method: " + JSON.stringify(responseJson));
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => {console.log(error.message)});
+  },
+
+  newRequestAuto: (requestOptions) => {
+    fetch(
+      process.env.REACT_APP_BOOKING_SERVICE_PATH + "/api/requests/send-request/automatic-accept",
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((responseJson) => {
+        alert("from service method: " + JSON.stringify(responseJson));
+      })
+      .catch((error) => {console.log(error.message)});
   },
 
   accept: (id) => {
@@ -46,7 +58,7 @@ const BookingService = {
       .then((responseJson) => {
         console.log("responseJson: ", responseJson);
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => {console.log(error.message)});
   },
 
   decline: (id) => {
@@ -60,7 +72,7 @@ const BookingService = {
       .then((responseJson) => {
         console.log("responseJson: ", responseJson);
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => {console.log(error.message)});
   },
 
   cancel: (id) => {
@@ -74,7 +86,7 @@ const BookingService = {
       .then((responseJson) => {
         console.log("responseJson: ", responseJson);
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => {console.log(error.message)});
   },
   
   getActive : (id, setCallback) => {
@@ -83,7 +95,7 @@ const BookingService = {
         .then((responseJson) => {
             if(setCallback) setCallback(responseJson);
         })
-        .catch(error => alert(error.message));
+        .catch(error => {console.log(error.message)});
     },
 
   getBookings: (id, setBookings) => {
@@ -97,7 +109,7 @@ const BookingService = {
           console.log("responseJson: ", responseJson);
           setBookings(responseJson);
         })
-        .catch((error) => alert(error.message));
+        .catch((error) => {console.log(error.message)});
   },
     
   getReservationsCount: async (lodgeId, start, end, setCount) => {

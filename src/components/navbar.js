@@ -17,12 +17,12 @@ import { useNavigate } from "react-router-dom";
 import UserService from '../services/userService';
 
 const pages = [
-  { name: "My lodges", link: "/my-lodges" },
-  { name: "New lodging", link: "/new-lodge" },
-  { name: "Lodging search", link: "/lodge-search" },
-  { name: "My Bookings", link: "/my-bookings" },
-  { name: "Booking Requests", link: "/requests" },
-  { name: "New Request", link: "/new-request" }
+  { name: "My lodges", link: "/my-lodges", roles: ["ROLE_HOST"] },
+  { name: "New lodging", link: "/new-lodge", roles: ["ROLE_HOST"] },
+  { name: "Lodging search", link: "/lodge-search", roles: ["ANY"] },
+  { name: "My Bookings", link: "/my-bookings", roles: ["ROLE_GUEST", "ROLE_HOST"] },
+  { name: "Booking Requests", link: "/requests", roles: ["ROLE_GUEST", "ROLE_HOST"] },
+  // { name: "New Request", link: "/new-request" }
 ];
 const settings = [
   {name: "Profile", link: "/profile", function: () => {}},
