@@ -35,7 +35,7 @@ export default function LodgeSearchResult({lodge, start, end, numOfGuests}) {
     }
     alert(requestOptions.body);
     BookingService.newRequest(requestOptions);
-    navigate("/requests")
+    // navigate("/requests")
   }
 
 
