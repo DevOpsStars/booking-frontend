@@ -45,7 +45,10 @@ export default function BasePage({ children }) {
   const onNotificationReceived = (payload) => {
     console.log("%%%%%%%%%%%% Usli u callback")
     let receivedNotification = JSON.parse(payload.body);
-    setNotifications((prevNotifications) => [...prevNotifications, receivedNotification]);
+    if(receivedNotification.receiverId == (localStorage.getItem("token") ? jwt(localStorage.getItem("token")).id : 0)){
+      setNotifications((prevNotifications) => [...prevNotifications, receivedNotification]);
+    }
+    
   }
 
   const onError = (err) => {
