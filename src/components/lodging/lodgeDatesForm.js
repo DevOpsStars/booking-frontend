@@ -86,8 +86,8 @@ export default function LodgeDatesForm() {
             method: 'DELETE'
         }
         LodgeDatesService.deleteAvailability(requestOptions, lodgeId, a.id, a.start, a.end);
-        LodgeDatesService.getAvailabilitiesByLodge(lodgeId, setAvailabilities);
-        window.location.reload(true)
+        // LodgeDatesService.getAvailabilitiesByLodge(lodgeId, setAvailabilities);
+        window.setTimeout(() => window.location.reload(true), 1000);
     }
 
     const deletePriceMod = (mod) => {
@@ -95,8 +95,8 @@ export default function LodgeDatesForm() {
             method: 'DELETE'
         }
         LodgeDatesService.deletePriceMod(requestOptions, lodgeId, mod.id, mod.start, mod.end);
-        LodgeDatesService.getPriceModificationsByLodge(lodgeId, setPriceMods);
-        window.location.reload(true)
+        // LodgeDatesService.getPriceModificationsByLodge(lodgeId, setPriceMods);
+        window.setTimeout(() => window.location.reload(true), 1000);
     }
 
     return (
