@@ -103,7 +103,6 @@ export default function LodgeForm() {
       })
     }
     await LodgingService.newLodge(requestOptions, setLodge);
-    // window.location.reload(true)
   }
 
   return (

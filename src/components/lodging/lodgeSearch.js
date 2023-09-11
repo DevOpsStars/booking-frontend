@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Button, Container, CssBaseline, Grid, Stack, Typography } from "@mui/material";
 import { TextField } from "@mui/material";
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -11,6 +11,11 @@ import { useNavigate } from 'react-router-dom';
 import BookingService from '../../services/requestService';
 import jwt from 'jwt-decode';
 import LodgeSearchResult from './lodgeSearchResult';
+import { over } from 'stompjs';
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
+
+// var stompClient=null;
 
 export default function LodgeSearch() {
 
@@ -20,7 +25,78 @@ export default function LodgeSearch() {
   const [numOfGuests, setNumOfGuests] = useState(1);
   const [lodges, setLodges] = useState([]);
 
-  const handleSubmit = (event) => {
+  const [notifications, setNotifications] = useState([]);
+  const [notification, setNotification] = useState('');
+  const [stompClient, setStompClient] = useState(null);
+
+  useEffect(() => {
+    const socket = new SockJS(process.env.REACT_APP_BOOKING_SERVICE_PATH + "/ws");
+    const client = Stomp.over(socket);
+
+    client.connect({}, () => {
+      alert("Stomp client is connected");
+      console.log("Stomp client is connected");
+      client.subscribe('/topic/messages', (message) => {
+        const receivedNotification = JSON.parse(message.body);
+        setNotifications((prevNotifications) => [...prevNotifications, receivedNotification]);
+      });
+
+      client.subscribe('/topic/reqCreated', onResCreatedNotifReceived); //TODO USER ID, TODO smestiti negde drugde sve ovo
+      // client.subscribe('/resCreated', onResCreatedNotifReceived); //TODO USER ID, TODO smestiti negde drugde sve ovo
+      // client.subscribe('/user/1/resCreated', onResCreatedNotifReceived);
+      client.subscribe('/topic/reqAccepted', onReqAcceptedNotifReceived);
+    },
+    onError);
+
+    setStompClient(client);
+    return () => {
+      client.disconnect();
+    };
+
+  }, [])
+
+  // const haha = () => {
+  //   let Sock = new SockJS(process.env.REACT_APP_BOOKING_SERVICE_PATH + "/ws")
+  //   stompClient = over(Sock);
+  //   stompClient.connect({}, onConnected, onError);
+  // }
+
+  // const onConnected = () => {
+  //   alert("Stomp client is connected");
+  //   console.log("Stomp client is connected");
+  //   stompClient.subscribe('/user/1/resCreated', onResCreatedNotifReceived); //TODO USER ID, TODO smestiti negde drugde sve ovo
+  //   stompClient.subscribe('/user/1/reqAccepted', onReqAcceptedNotifReceived);
+  //   //AKO NECE NOTIFIKACIJE< ONDA UNSUBSCRIBE
+  // }
+
+  const onResCreatedNotifReceived = (payload) => {
+    console.log("%%%%%%%%%%%% Usli u callback")
+    let payloadData = JSON.parse(payload.body);
+    switch (payloadData.status) {
+      case "CREATED":
+        alert("STIGLA CREATED notifikacija, napraviti toster")
+        console.log("STIGLA CREATED notifikacija, napraviti toster, moze lista na frontu, moze fetch sa beka?", payloadData)
+        break;
+      default: alert("Default switch created")
+    }
+  }
+
+  const onReqAcceptedNotifReceived = (payload) => {
+    let payloadData = JSON.parse(payload.body);
+    switch (payloadData.status) {
+      case "RESPOND":
+        alert("STIGLA RESPOND notifikacija, napraviti toster")
+        console.log("STIGLA RESPOND notifikacija, napraviti toster, moze lista na frontu, moze fetch sa beka?", payloadData)
+        break;
+      default: alert("Default switch accept")
+    }
+  }
+
+  const onError = (err) => {
+    console.log(err)
+  }
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     let requestOptions = {
