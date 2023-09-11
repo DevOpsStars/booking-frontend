@@ -31,7 +31,7 @@ export default function LodgeSearchResult({lodge, start, end, numOfGuests}) {
     }
   }, []);
 
-  const makeReservation = (lodgeId, totalPrice) => {
+  const makeReservation = (lodgeId, totalPrice, hostId) => {
     let requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -47,12 +47,12 @@ export default function LodgeSearchResult({lodge, start, end, numOfGuests}) {
     console.log(requestOptions.body);
     if (l.isAutoApproved) {
       console.log("auto");
-      BookingService.newRequestAuto(requestOptions);
+      BookingService.newRequestAuto(requestOptions, hostId);
       // navigate("/my-bookings")
     }
     else {
       console.log("no auto");
-      BookingService.newRequest(requestOptions);
+      BookingService.newRequest(requestOptions, hostId);
       // navigate("/requests")
     }
   }
@@ -73,7 +73,7 @@ export default function LodgeSearchResult({lodge, start, end, numOfGuests}) {
         variant="contained"
         color="warning"
         sx={{ height: '50px', mt: 3, mb: 2 }}
-        onClick={() => makeReservation(lodge.lodgeId, lodge.result.totalPrice)}
+        onClick={() => makeReservation(lodge.lodgeId, lodge.result.totalPrice, lodge.hostId)}
       >Make a reservation</Button>
     } 
 
