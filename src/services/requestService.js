@@ -34,7 +34,7 @@ const BookingService = {
 
   newRequest: (requestOptions) => {
     fetch(
-      process.env.REACT_APP_BOOKING_SERVICE_PATH + "/api/requests/send-request",
+      process.env.REACT_APP_BOOKING_SERVICE_PATH + "/api/requests/send-request/1",
       requestOptions
     )
       .then((response) => response.json())
