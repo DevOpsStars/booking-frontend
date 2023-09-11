@@ -23,9 +23,9 @@ const BookingService = {
       .catch((error) => {console.log(error.message)});
   },
 
-  newRequest: (requestOptions) => {
+  newRequest: (requestOptions, hostId) => {
     fetch(
-      process.env.REACT_APP_BOOKING_SERVICE_PATH + "/api/requests/send-request/1",
+      process.env.REACT_APP_BOOKING_SERVICE_PATH + "/api/requests/send-request/" + hostId,
       requestOptions
     )
       .then((response) => response.json())
@@ -35,9 +35,9 @@ const BookingService = {
       .catch((error) => {console.log(error.message)});
   },
 
-  newRequestAuto: (requestOptions) => {
+  newRequestAuto: (requestOptions, hostId) => {
     fetch(
-      process.env.REACT_APP_BOOKING_SERVICE_PATH + "/api/requests/send-request/automatic-accept",
+      process.env.REACT_APP_BOOKING_SERVICE_PATH + "/api/requests/send-request/automatic-accept/" + hostId,
       requestOptions
     )
       .then((response) => response.json())
