@@ -21,10 +21,13 @@ import UserService from "../../services/userService";
 import IconThenText from "./textWithIcon";
 import BookingService from "../../services/requestService";
 import FormatedDate from "./formatedDate";
+import LodgeCard from "../lodging/lodgeCard";
+import LodgingService from "../../services/lodgeService";
 
 export default function RequestHostView({ request }) {
   const [user, setUser] = useState({});
   const [cancelCount, setCancelCount] = useState(0);
+  const [lodge, setLodge] = useState({});
 
   useEffect(() => {
     let requestOptions = {
@@ -36,6 +39,7 @@ export default function RequestHostView({ request }) {
     };
     UserService.getUser(request.userId, setUser, requestOptions);
     BookingService.getCancelCount(request.userId, setCancelCount);
+    LodgingService.getLodge(request.lodgeId, setLodge);
   }, []);
 
   useEffect(() => {
@@ -54,8 +58,20 @@ export default function RequestHostView({ request }) {
     BookingService.decline(request.id);
   };
 
+  const handleDelete = (event) => {
+    let requestOptions = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("token")
+      },
+    }
+    BookingService.delete(request.id, requestOptions);
+  };
+
   return (
     <Card key={request.id} sx={{ minWidth: 275, display: "inline-flex", m: 2 }}>
+      <LodgeCard lodge={lodge}/>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent>
           <Typography variant="h4" component="div">
@@ -130,16 +146,16 @@ export default function RequestHostView({ request }) {
               flexWrap: "wrap",
             }}>
             
-          {request.status !== 'PENDING' ? request.status === 'ACCEPTED' ?
+          {request.status === 'ACCEPTED' ?
             (<Typography sx={{ fontWeight: 'bold' }} variant="p">
               {request.status}
             </Typography>) : 
             (<Typography variant="p">
             {request.status}
-          </Typography>) : ''}
+          </Typography>)}
             </div>
         </CardContent>
-        {request.status === 'PENDING' ? (
+        {JSON.parse(localStorage.getItem("currentUser")) && JSON.parse(localStorage.getItem("currentUser")).role == "ROLE_HOST" && request.status === 'PENDING' ? (
           <CardActions>
           <Button
             onClick={handleAccept}
@@ -156,6 +172,19 @@ export default function RequestHostView({ request }) {
             color="warning"
           >
             Decline <CloseIcon />
+          </Button>
+        </CardActions>
+        ) : ''}
+
+        {JSON.parse(localStorage.getItem("currentUser")) && JSON.parse(localStorage.getItem("currentUser")).role == "ROLE_GUEST" && request.status === 'PENDING' ? (
+          <CardActions>
+          <Button
+            onClick={handleDelete}
+            size="small"
+            variant="outlined"
+            color="warning"
+          >
+            Delete <CloseIcon />
           </Button>
         </CardActions>
         ) : ''}

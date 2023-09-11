@@ -135,7 +135,7 @@ export default function BookingGuestView({ booking }) {
           </div>
         </CardContent>
 
-        {!booking.canceled && canCancel(booking.reservationStart) ? (
+        {localStorage.getItem("currentUser") && localStorage.getItem("currentUser").role == "ROLE_GUEST" && !booking.canceled && canCancel(booking.reservationStart) ? (
           <CardActions>
             <Button
               onClick={handleCancel}
@@ -151,14 +151,13 @@ export default function BookingGuestView({ booking }) {
             CANCELED
           </Typography>
         )}
-        {/* <div> */}
-          {canRate(booking.reservationEnd) ? (
+        
+          {localStorage.getItem("currentUser") && localStorage.getItem("currentUser").role == "ROLE_GUEST" && canRate(booking.reservationEnd) ? (
           <div>
             <NewRating type="lodge" forId={booking.lodgeId}/>
             <NewRating type="host" forId={lodge.hostId}/>
           </div>
           ) : ""}
-        {/* </div> */}
       </Box>
     </Card>
   );

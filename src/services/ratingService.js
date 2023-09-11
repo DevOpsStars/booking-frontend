@@ -56,7 +56,7 @@ const RatingService = {
           console.log(responseJson);
           if (responseJson) setState(responseJson);
         })
-        .catch((error) => alert(error.message, error.status));
+        .catch((error) => console.log(error.message, error.status));
     },
 
     delete: (id, type) => {

@@ -15,14 +15,14 @@ import AdbIcon from "@mui/icons-material/Adb";
 import Link from "@mui/material/Link";
 import { useNavigate } from "react-router-dom";
 import UserService from '../services/userService';
+import LuggageIcon from '@mui/icons-material/Luggage';
 
 const pages = [
   { name: "My lodges", link: "/my-lodges", roles: ["ROLE_HOST"] },
   { name: "New lodging", link: "/new-lodge", roles: ["ROLE_HOST"] },
-  { name: "Lodging search", link: "/lodge-search", roles: ["ANY"] },
+  { name: "Lodge search", link: "/lodge-search", roles: ["ANY"] },
   { name: "My Bookings", link: "/my-bookings", roles: ["ROLE_GUEST", "ROLE_HOST"] },
-  { name: "Booking Requests", link: "/requests", roles: ["ROLE_GUEST", "ROLE_HOST"] },
-  // { name: "New Request", link: "/new-request" }
+  { name: "My Booking Requests", link: "/my-requests", roles: ["ROLE_GUEST", "ROLE_HOST"] },
 ];
 const settings = [
   {name: "Profile", link: "/profile", function: () => {}},
@@ -32,7 +32,7 @@ const settings = [
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  
+  const [user, setUser] = React.useState({});
   const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
@@ -52,11 +52,17 @@ function Navbar() {
     setAnchorElUser(null);
   };
 
+  React.useEffect(() => {
+    if (localStorage.getItem("currentUser")) {
+      setUser(JSON.parse(localStorage.getItem("currentUser")))
+    }
+  }, []);
+
   return (
     <AppBar position="static" color="warning">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <LuggageIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -72,7 +78,7 @@ function Navbar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            Starbook
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -104,7 +110,7 @@ function Navbar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
+              {pages.filter(p => p.roles.includes(user.role) || p.roles.includes("ANY")).map((page) => (
                 <MenuItem key={page.link} onClick={handleCloseNavMenu}>
                   <Link href={page.link} color="inherit" underline="none">
                     <Typography textAlign="center">{page.name}</Typography>
@@ -133,7 +139,7 @@ function Navbar() {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
+            {pages.filter(p => p.roles.includes(user.role) || p.roles.includes("ANY")).map((page) => (
               // <Link href={page.link} color="inherit" underline="none">
               <Button
                 key={page.link}

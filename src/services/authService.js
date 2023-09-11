@@ -14,7 +14,8 @@ const AuthService = {
     register : (requestOptions, password) => {
         fetch(process.env.REACT_APP_USER_SERVICE_PATH+'/api/auth/register?password='+password, requestOptions)
         .then((response) => {
-
+            console.log(response.status)
+            alert(response.status)
         })
         .catch(error => {console.log(error.message)});
     },

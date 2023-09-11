@@ -9,6 +9,15 @@ const BookingService = {
       .catch((error) => {console.log(error.message)});
   },
 
+  getRequestsByUser: (setState, id) => {
+    fetch(process.env.REACT_APP_BOOKING_SERVICE_PATH + "/api/requests")
+      .then((response) => response.json())
+      .then((responseJson) => {
+        setState(responseJson.filter(r => r.userId == id));
+      })
+      .catch((error) => {console.log(error.message)});
+  },
+
   getCancelCount: (id, setState) => {
     fetch(
       process.env.REACT_APP_BOOKING_SERVICE_PATH +
@@ -30,7 +39,7 @@ const BookingService = {
     )
       .then((response) => response.json())
       .then((responseJson) => {
-        alert("from service method: " + JSON.stringify(responseJson));
+        console.log("from service method: " + JSON.stringify(responseJson));
       })
       .catch((error) => {console.log(error.message)});
   },
@@ -42,7 +51,7 @@ const BookingService = {
     )
       .then((response) => response.json())
       .then((responseJson) => {
-        alert("from service method: " + JSON.stringify(responseJson));
+        console.log("from service method: " + JSON.stringify(responseJson));
       })
       .catch((error) => {console.log(error.message)});
   },
@@ -67,6 +76,19 @@ const BookingService = {
         "/api/requests/" +
         id +
         "/decline"
+    )
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log("responseJson: ", responseJson);
+      })
+      .catch((error) => {console.log(error.message)});
+  },
+
+  delete: (id, requestOptions) => {
+    fetch(
+      process.env.REACT_APP_BOOKING_SERVICE_PATH +
+        "/api/requests/" +
+        id, requestOptions
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -111,6 +133,19 @@ const BookingService = {
         })
         .catch((error) => {console.log(error.message)});
   },
+
+  getAllBookings: (setBookings) => {
+    fetch(
+        process.env.REACT_APP_BOOKING_SERVICE_PATH +
+        "/api/reservations"
+      )
+        .then((response) => response.json())
+        .then((responseJson) => {
+          console.log("responseJson: ", responseJson);
+          setBookings(responseJson);
+        })
+        .catch((error) => {console.log(error.message)});
+  },
     
   getReservationsCount: async (lodgeId, start, end, setCount) => {
     fetch(process.env.REACT_APP_BOOKING_SERVICE_PATH + "/api/reservations/lodge/" + lodgeId + "/period/count?start=" + start + "&end=" + end)
@@ -118,7 +153,23 @@ const BookingService = {
     .then((responseJson) => {
       setCount(responseJson);
     })
-  }
+  },
+
+  getBookingsByLodges: (ids, setBookings) => {
+    fetch(
+        process.env.REACT_APP_BOOKING_SERVICE_PATH +
+        "/api/reservations/lodges/active?" + new URLSearchParams({
+          ids: ids
+      })
+      )
+        .then((response) => response.json())
+        .then((responseJson) => {
+          console.log("responseJson: ", responseJson);
+          setBookings(responseJson);
+        })
+        .catch((error) => {console.log(error.message)});
+  },
+  
 }
 
 export default BookingService;
