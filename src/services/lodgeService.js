@@ -40,7 +40,7 @@ const LodgingService = {
     fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/lodge", requestOptions)
       .then((response) => response.json())
       .then((responseJson) => {
-        alert("from service method: " + JSON.stringify(responseJson));
+        console.log("from service method: " + JSON.stringify(responseJson));
         setLodge(responseJson);
         console.log(responseJson);
       })

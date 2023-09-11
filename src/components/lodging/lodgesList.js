@@ -11,7 +11,7 @@ export default function LodgesList() {
   const navigate = useNavigate();
   useEffect(() => {
     LodgingService.getLodgesByHost(// TODO skloniti 1
-      localStorage.getItem("token") ? jwt(localStorage.getItem("token")).id : 1, 
+      jwt(localStorage.getItem("token")).id, 
       setLodges);
   }, [])
 
@@ -21,8 +21,9 @@ export default function LodgesList() {
     let requestOptions = {
       method: 'DELETE'
     }
+    
     LodgingService.deleteLodge(requestOptions, lodgeId);
-    LodgingService.getLodgesByHost(1, setLodges);
+    LodgingService.getLodgesByHost(jwt(localStorage.getItem("token")).id, setLodges);
     window.location.reload(true)
   }
 

@@ -13,6 +13,7 @@ export default function LodgeSearchResult({lodge, start, end, numOfGuests}) {
   const navigate = useNavigate();
   const [count, setCount] = useState(-1);
   const [l, setL] = useState({})
+  const [user, setUser] = React.useState({});
 
   useEffect(() => {
     console.log("*****************", lodge)
@@ -24,6 +25,9 @@ export default function LodgeSearchResult({lodge, start, end, numOfGuests}) {
     if (lodge && lodge.lodgeId) {
       console.log("searchResult",lodge.lodgeId)
       LodgingService.getLodge(lodge.lodgeId, setL)
+    }
+    if (localStorage.getItem("currentUser")) {
+      setUser(JSON.parse(localStorage.getItem("currentUser")))
     }
   }, []);
 
@@ -40,7 +44,7 @@ export default function LodgeSearchResult({lodge, start, end, numOfGuests}) {
         totalPrice: totalPrice
       })
     }
-    alert(requestOptions.body);
+    console.log(requestOptions.body);
     if (l.isAutoApproved) {
       console.log("auto");
       BookingService.newRequestAuto(requestOptions);
@@ -64,7 +68,7 @@ export default function LodgeSearchResult({lodge, start, end, numOfGuests}) {
     <LodgeCard lodge={lodge} />
     <ResultsCard result={lodge.result} />
 
-    {count === 0 &&
+    {count === 0 && user && user.role == "ROLE_GUEST" &&
       <Button
         variant="contained"
         color="warning"

@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import AlertDialog from '../alertDialog';
 import jwt from 'jwt-decode';
 import BookingService from '../../services/requestService';
+import LodgingService from '../../services/lodgeService';
 
 const defaultTheme = createTheme();
 
@@ -30,13 +31,24 @@ export default function UserProfile() {
     const [userId, setUserId] = React.useState(localStorage.getItem("token") ? jwt(localStorage.getItem("token"))?.id : 0);
 
     const [activeReservations, setActiveReservations] = React.useState([]);
+    const [lodges, setLodges] = React.useState([])
   
     React.useEffect(() => {
       if(!JSON.parse(localStorage.getItem("currentUser")) && !localStorage.getItem("token")) 
       {navigate("/"); return;}
 
-      BookingService.getActive(userId, setActiveReservations);
-    })
+      if (role == "ROLE_GUEST")BookingService.getActive(userId, setActiveReservations);
+      if (role == "ROLE_HOST") LodgingService.getLodgesByHost(userId, setLodges);
+    }, [])
+
+    React.useEffect(() => {
+      if (lodges && lodges.lenght > 0)
+      BookingService.getBookingsByLodges(lodges?.map(l => l.id), setActiveReservations);
+    }, [lodges])
+
+    React.useEffect(() => {
+      console.log(activeReservations)
+    }, [activeReservations])
 
     const handleSubmit = (event) => {
       event.preventDefault();
@@ -59,6 +71,7 @@ export default function UserProfile() {
       }
       let hashedPassword = data.get("password") === '' ? '' : bcrypt.hashSync(data.get("password"), 10);
       UserService.updateUser(requestOptions, hashedPassword);
+      
     };
 
     const handleDelete = () => {

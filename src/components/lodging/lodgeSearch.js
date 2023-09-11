@@ -51,7 +51,7 @@ export default function LodgeSearch() {
         totalPrice: totalPrice
       })
     }
-    alert(requestOptions.body);
+    console.log(requestOptions.body);
     BookingService.newRequest(requestOptions);
   }
 

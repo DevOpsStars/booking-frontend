@@ -4,23 +4,6 @@ import { StyledRating } from './averageRating';
 import RatingService from '../../services/ratingService';
 import jwtDecode from 'jwt-decode';
 
-// export default function NewHostRating() {
-//     const [value, setValue] = React.useState(2);
-//   return (
-//     <div>
-//     <Typography component="legend">Rate this host</Typography>
-//       <StyledRating
-//         name="host-rating"
-//         value={value}
-//         onChange={(event, newValue) => {
-//           setValue(newValue);
-//         }}
-//       />
-//       <Button color='primary' variant='outlined'>Rate</Button>
-//     </div>
-//   )
-// }
-
 export default function NewRating({ type, forId }) {
     const [value, setValue] = useState(0);
     const [allByG, setAllByG] = useState([]);

@@ -3,15 +3,30 @@ import BookingGuestView from './bookingHostView';
 import { Typography } from '@mui/material';
 import BookingService from '../../services/requestService';
 import jwt from 'jwt-decode';
+import LodgingService from '../../services/lodgeService';
 
 export default function BookingList() {
   const [bookings, setBookings] = useState([]);
+  const [lodges, setLodges] = useState([]);
 
   useEffect(() => {
-    BookingService.getBookings(jwt(localStorage.getItem("token")).id, setBookings);
+    if (JSON.parse(localStorage.getItem("currentUser")).role == "ROLE_GUEST") {
+      BookingService.getBookings(jwt(localStorage.getItem("token")).id, setBookings);
+    } else {
+      BookingService.getAllBookings(setBookings);
+      LodgingService.getLodgesByHost(jwt(localStorage.getItem("token")).id, setLodges);
+    }
   }, [])
 
   useEffect(() => {console.log(bookings);}, [bookings]);
+  useEffect(() => {
+    console.log(lodges, bookings);
+    if (lodges && bookings && bookings.length > 0){
+      console.log(bookings.filter(b => lodges.map(l => l.id).includes(b.lodgeId)))
+      setBookings(bookings.filter(b => lodges.map(l => l.id).includes(b.lodgeId)))
+    }
+      
+  }, [lodges]);
 
   return (
     <div>

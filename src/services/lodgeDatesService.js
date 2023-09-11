@@ -4,7 +4,7 @@ const LodgeDatesService = {
     fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/availability", requestOptions)
       .then((response) => response.json())
       .then((responseJson) => {
-        alert("from service availability method: " + JSON.stringify(responseJson));
+        console.log("from service availability method: " + JSON.stringify(responseJson));
         console.log(responseJson);
       })
       .catch(error => {console.log(error.message)})
@@ -31,7 +31,7 @@ const LodgeDatesService = {
             })
             .catch(error => {console.log(error.message)})
         } else {
-          alert("could not delete, because of existing reservations")
+          console.log("could not delete, because of existing reservations")
         }
       })
       .catch(error => {console.log(error.message)})
@@ -41,7 +41,7 @@ const LodgeDatesService = {
     fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/price", requestOptions)
       .then((response) => response.json())
       .then((responseJson) => {
-        alert("from service price method: " + JSON.stringify(responseJson));
+        console.log("from service price method: " + JSON.stringify(responseJson));
         console.log(responseJson);
       })
       .catch(error => {console.log(error.message)})
@@ -68,7 +68,7 @@ const LodgeDatesService = {
           })
           .catch(error => {console.log(error.message)})
       } else {
-        alert("could not delete, because of existing reservations")
+        console.log("could not delete, because of existing reservations")
       }
     })
     .catch(error => {console.log(error.message)})
