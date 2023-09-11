@@ -20,11 +20,13 @@ export default function BasePage({ children }) {
     NotificationService.getNotificationsByReceiverId(localStorage.getItem("token") ? jwt(localStorage.getItem("token")).id : 1, setNotifications)
 
     client.connect({}, () => {
-      alert("Stomp client is connected");
       console.log("Stomp client is connected");
 
       client.subscribe('/topic/reqCreated', onNotificationReceived);
       client.subscribe('/topic/reqAccepted', onNotificationReceived);
+      client.subscribe('/topic/reqDeclined', onNotificationReceived);
+      client.subscribe('/topic/resCanceled', onNotificationReceived);
+
     },
       onError);
 
@@ -34,6 +36,10 @@ export default function BasePage({ children }) {
     };
 
   }, [])
+
+  useEffect(() => {
+    console.log("Notificaitons", notifications)
+  }, [notifications])
 
   
   const onNotificationReceived = (payload) => {
@@ -73,17 +79,13 @@ export default function BasePage({ children }) {
             )
           }
           )}
-
+          {notifications && notifications.length === 0 && 
             <Card>
               <CardContent>
-                <Typography>Blaba</Typography>
+                <Typography><i>Empty</i></Typography>
               </CardContent>
             </Card>
-            <Card>
-              <CardContent>
-                <Typography>Blaba</Typography>
-              </CardContent>
-            </Card>
+            }
           </Box>
         </Box>
 

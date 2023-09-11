@@ -25,9 +25,11 @@ const LodgeDatesService = {
       .then((response) => response.json())
       .then((responseJson) => {
         if (responseJson === 0) {
+          // con
           fetch(process.env.REACT_APP_LODGING_SERVICE_PATH + "/api/availability/" + availabilityId, requestOptions)
             .then((response) => {
               console.log(response)
+              alert("Delted availability")
             })
             .catch(error => {console.log(error.message)})
         } else {
